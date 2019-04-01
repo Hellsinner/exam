@@ -1,0 +1,206 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.hellsinner.exam.dao.QuestionMapper">-->
+  <!--<resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Question">-->
+    <!--<id column="QuesID" jdbcType="INTEGER" property="quesid" />-->
+    <!--<result column="TypeID" jdbcType="INTEGER" property="typeid" />-->
+    <!--<result column="UserID" jdbcType="INTEGER" property="userid" />-->
+    <!--<result column="UnitID" jdbcType="INTEGER" property="unitid" />-->
+    <!--<result column="Name" jdbcType="VARCHAR" property="name" />-->
+    <!--<result column="SeletedTimes" jdbcType="INTEGER" property="seletedtimes" />-->
+    <!--<result column="MemLimit" jdbcType="INTEGER" property="memlimit" />-->
+    <!--<result column="TimeLimit" jdbcType="INTEGER" property="timelimit" />-->
+    <!--<result column="Status" jdbcType="INTEGER" property="status" />-->
+  <!--</resultMap>-->
+  <!--<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hellsinner.exam.model.dao.QuestionWithBLOBs">-->
+    <!--<result column="Content" jdbcType="LONGVARCHAR" property="content" />-->
+    <!--<result column="InputExam" jdbcType="LONGVARCHAR" property="inputexam" />-->
+    <!--<result column="OutExam" jdbcType="LONGVARCHAR" property="outexam" />-->
+    <!--<result column="Answer" jdbcType="LONGVARCHAR" property="answer" />-->
+  <!--</resultMap>-->
+  <!--<sql id="Base_Column_List">-->
+    <!--QuesID, TypeID, UserID, UnitID, Name, SeletedTimes, MemLimit, TimeLimit, Status-->
+  <!--</sql>-->
+  <!--<sql id="Blob_Column_List">-->
+    <!--Content, InputExam, OutExam, Answer-->
+  <!--</sql>-->
+  <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">-->
+    <!--select -->
+    <!--<include refid="Base_Column_List" />-->
+    <!--,-->
+    <!--<include refid="Blob_Column_List" />-->
+    <!--from question-->
+    <!--where QuesID = #{quesid,jdbcType=INTEGER}-->
+  <!--</select>-->
+  <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--delete from question-->
+    <!--where QuesID = #{quesid,jdbcType=INTEGER}-->
+  <!--</delete>-->
+  <!--<insert id="insert" parameterType="com.hellsinner.exam.model.dao.QuestionWithBLOBs">-->
+    <!--insert into question (QuesID, TypeID, UserID, -->
+      <!--UnitID, Name, SeletedTimes, -->
+      <!--MemLimit, TimeLimit, Status, -->
+      <!--Content, InputExam, OutExam, -->
+      <!--Answer)-->
+    <!--values (#{quesid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, -->
+      <!--#{unitid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{seletedtimes,jdbcType=INTEGER}, -->
+      <!--#{memlimit,jdbcType=INTEGER}, #{timelimit,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, -->
+      <!--#{content,jdbcType=LONGVARCHAR}, #{inputexam,jdbcType=LONGVARCHAR}, #{outexam,jdbcType=LONGVARCHAR}, -->
+      <!--#{answer,jdbcType=LONGVARCHAR})-->
+  <!--</insert>-->
+  <!--<insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.QuestionWithBLOBs">-->
+    <!--insert into question-->
+    <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+      <!--<if test="quesid != null">-->
+        <!--QuesID,-->
+      <!--</if>-->
+      <!--<if test="typeid != null">-->
+        <!--TypeID,-->
+      <!--</if>-->
+      <!--<if test="userid != null">-->
+        <!--UserID,-->
+      <!--</if>-->
+      <!--<if test="unitid != null">-->
+        <!--UnitID,-->
+      <!--</if>-->
+      <!--<if test="name != null">-->
+        <!--Name,-->
+      <!--</if>-->
+      <!--<if test="seletedtimes != null">-->
+        <!--SeletedTimes,-->
+      <!--</if>-->
+      <!--<if test="memlimit != null">-->
+        <!--MemLimit,-->
+      <!--</if>-->
+      <!--<if test="timelimit != null">-->
+        <!--TimeLimit,-->
+      <!--</if>-->
+      <!--<if test="status != null">-->
+        <!--Status,-->
+      <!--</if>-->
+      <!--<if test="content != null">-->
+        <!--Content,-->
+      <!--</if>-->
+      <!--<if test="inputexam != null">-->
+        <!--InputExam,-->
+      <!--</if>-->
+      <!--<if test="outexam != null">-->
+        <!--OutExam,-->
+      <!--</if>-->
+      <!--<if test="answer != null">-->
+        <!--Answer,-->
+      <!--</if>-->
+    <!--</trim>-->
+    <!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+      <!--<if test="quesid != null">-->
+        <!--#{quesid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="typeid != null">-->
+        <!--#{typeid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="userid != null">-->
+        <!--#{userid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="unitid != null">-->
+        <!--#{unitid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="name != null">-->
+        <!--#{name,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="seletedtimes != null">-->
+        <!--#{seletedtimes,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="memlimit != null">-->
+        <!--#{memlimit,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="timelimit != null">-->
+        <!--#{timelimit,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="status != null">-->
+        <!--#{status,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="content != null">-->
+        <!--#{content,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="inputexam != null">-->
+        <!--#{inputexam,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="outexam != null">-->
+        <!--#{outexam,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="answer != null">-->
+        <!--#{answer,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+    <!--</trim>-->
+  <!--</insert>-->
+  <!--<update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.QuestionWithBLOBs">-->
+    <!--update question-->
+    <!--<set>-->
+      <!--<if test="typeid != null">-->
+        <!--TypeID = #{typeid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="userid != null">-->
+        <!--UserID = #{userid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="unitid != null">-->
+        <!--UnitID = #{unitid,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="name != null">-->
+        <!--Name = #{name,jdbcType=VARCHAR},-->
+      <!--</if>-->
+      <!--<if test="seletedtimes != null">-->
+        <!--SeletedTimes = #{seletedtimes,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="memlimit != null">-->
+        <!--MemLimit = #{memlimit,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="timelimit != null">-->
+        <!--TimeLimit = #{timelimit,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="status != null">-->
+        <!--Status = #{status,jdbcType=INTEGER},-->
+      <!--</if>-->
+      <!--<if test="content != null">-->
+        <!--Content = #{content,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="inputexam != null">-->
+        <!--InputExam = #{inputexam,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="outexam != null">-->
+        <!--OutExam = #{outexam,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+      <!--<if test="answer != null">-->
+        <!--Answer = #{answer,jdbcType=LONGVARCHAR},-->
+      <!--</if>-->
+    <!--</set>-->
+    <!--where QuesID = #{quesid,jdbcType=INTEGER}-->
+  <!--</update>-->
+  <!--<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hellsinner.exam.model.dao.QuestionWithBLOBs">-->
+    <!--update question-->
+    <!--set TypeID = #{typeid,jdbcType=INTEGER},-->
+      <!--UserID = #{userid,jdbcType=INTEGER},-->
+      <!--UnitID = #{unitid,jdbcType=INTEGER},-->
+      <!--Name = #{name,jdbcType=VARCHAR},-->
+      <!--SeletedTimes = #{seletedtimes,jdbcType=INTEGER},-->
+      <!--MemLimit = #{memlimit,jdbcType=INTEGER},-->
+      <!--TimeLimit = #{timelimit,jdbcType=INTEGER},-->
+      <!--Status = #{status,jdbcType=INTEGER},-->
+      <!--Content = #{content,jdbcType=LONGVARCHAR},-->
+      <!--InputExam = #{inputexam,jdbcType=LONGVARCHAR},-->
+      <!--OutExam = #{outexam,jdbcType=LONGVARCHAR},-->
+      <!--Answer = #{answer,jdbcType=LONGVARCHAR}-->
+    <!--where QuesID = #{quesid,jdbcType=INTEGER}-->
+  <!--</update>-->
+  <!--<update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Question">-->
+    <!--update question-->
+    <!--set TypeID = #{typeid,jdbcType=INTEGER},-->
+      <!--UserID = #{userid,jdbcType=INTEGER},-->
+      <!--UnitID = #{unitid,jdbcType=INTEGER},-->
+      <!--Name = #{name,jdbcType=VARCHAR},-->
+      <!--SeletedTimes = #{seletedtimes,jdbcType=INTEGER},-->
+      <!--MemLimit = #{memlimit,jdbcType=INTEGER},-->
+      <!--TimeLimit = #{timelimit,jdbcType=INTEGER},-->
+      <!--Status = #{status,jdbcType=INTEGER}-->
+    <!--where QuesID = #{quesid,jdbcType=INTEGER}-->
+  <!--</update>-->
+<!--</mapper>-->

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.KnowledgeunitMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Knowledgeunit">
+    <id column="UnitID" jdbcType="INTEGER" property="unitid" />
+    <result column="SuperUnitID" jdbcType="INTEGER" property="superunitid" />
+    <result column="CourID" jdbcType="INTEGER" property="courid" />
+    <result column="UnitName" jdbcType="VARCHAR" property="unitname" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UnitID, SuperUnitID, CourID, UnitName, Description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from knowledgeunit
+    where UnitID = #{unitid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from knowledgeunit
+    where UnitID = #{unitid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    insert into knowledgeunit (UnitID, SuperUnitID, CourID, 
+      UnitName, Description)
+    values (#{unitid,jdbcType=INTEGER}, #{superunitid,jdbcType=INTEGER}, #{courid,jdbcType=INTEGER}, 
+      #{unitname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    insert into knowledgeunit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unitid != null">
+        UnitID,
+      </if>
+      <if test="superunitid != null">
+        SuperUnitID,
+      </if>
+      <if test="courid != null">
+        CourID,
+      </if>
+      <if test="unitname != null">
+        UnitName,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unitid != null">
+        #{unitid,jdbcType=INTEGER},
+      </if>
+      <if test="superunitid != null">
+        #{superunitid,jdbcType=INTEGER},
+      </if>
+      <if test="courid != null">
+        #{courid,jdbcType=INTEGER},
+      </if>
+      <if test="unitname != null">
+        #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    update knowledgeunit
+    <set>
+      <if test="superunitid != null">
+        SuperUnitID = #{superunitid,jdbcType=INTEGER},
+      </if>
+      <if test="courid != null">
+        CourID = #{courid,jdbcType=INTEGER},
+      </if>
+      <if test="unitname != null">
+        UnitName = #{unitname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UnitID = #{unitid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    update knowledgeunit
+    set SuperUnitID = #{superunitid,jdbcType=INTEGER},
+      CourID = #{courid,jdbcType=INTEGER},
+      UnitName = #{unitname,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR}
+    where UnitID = #{unitid,jdbcType=INTEGER}
+  </update>
+</mapper>

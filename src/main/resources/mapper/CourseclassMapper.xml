@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.CourseclassMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Courseclass">
+    <id column="CourClassID" jdbcType="INTEGER" property="courclassid" />
+    <result column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="CourID" jdbcType="INTEGER" property="courid" />
+    <result column="CourClassNum" jdbcType="VARCHAR" property="courclassnum" />
+    <result column="CourClassName" jdbcType="VARCHAR" property="courclassname" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="CourClassSize" jdbcType="INTEGER" property="courclasssize" />
+    <result column="CourClassDescription" jdbcType="VARCHAR" property="courclassdescription" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    CourClassID, UserID, CourID, CourClassNum, CourClassName, Status, CourClassSize, 
+    CourClassDescription
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from courseclass
+    where CourClassID = #{courclassid,jdbcType=INTEGER}
+  </select>
+  <update id="incrClassSize">
+    update courseclass
+    set CourClassSize = CourClassSize + 1
+    where CourClassID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByUid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from courseclass
+    where CourClassID in
+    (select CourClassID from courstudent where UserID = #{uid})
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from courseclass
+    where CourClassID = #{courclassid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Courseclass">
+    <selectKey resultType="int" order="AFTER" keyProperty="courclassid">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into courseclass (CourClassID, UserID, CourID, 
+      CourClassNum, CourClassName, Status, 
+      CourClassSize, CourClassDescription)
+    values (#{courclassid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{courid,jdbcType=INTEGER}, 
+      #{courclassnum,jdbcType=VARCHAR}, #{courclassname,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{courclasssize,jdbcType=INTEGER}, #{courclassdescription,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courseclass">
+    insert into courseclass
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courclassid != null">
+        CourClassID,
+      </if>
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="courid != null">
+        CourID,
+      </if>
+      <if test="courclassnum != null">
+        CourClassNum,
+      </if>
+      <if test="courclassname != null">
+        CourClassName,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="courclasssize != null">
+        CourClassSize,
+      </if>
+      <if test="courclassdescription != null">
+        CourClassDescription,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courclassid != null">
+        #{courclassid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="courid != null">
+        #{courid,jdbcType=INTEGER},
+      </if>
+      <if test="courclassnum != null">
+        #{courclassnum,jdbcType=VARCHAR},
+      </if>
+      <if test="courclassname != null">
+        #{courclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="courclasssize != null">
+        #{courclasssize,jdbcType=INTEGER},
+      </if>
+      <if test="courclassdescription != null">
+        #{courclassdescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Courseclass">
+    update courseclass
+    <set>
+      <if test="userid != null">
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="courid != null">
+        CourID = #{courid,jdbcType=INTEGER},
+      </if>
+      <if test="courclassnum != null">
+        CourClassNum = #{courclassnum,jdbcType=VARCHAR},
+      </if>
+      <if test="courclassname != null">
+        CourClassName = #{courclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="courclasssize != null">
+        CourClassSize = #{courclasssize,jdbcType=INTEGER},
+      </if>
+      <if test="courclassdescription != null">
+        CourClassDescription = #{courclassdescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CourClassID = #{courclassid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Courseclass">
+    update courseclass
+    set UserID = #{userid,jdbcType=INTEGER},
+      CourID = #{courid,jdbcType=INTEGER},
+      CourClassNum = #{courclassnum,jdbcType=VARCHAR},
+      CourClassName = #{courclassname,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      CourClassSize = #{courclasssize,jdbcType=INTEGER},
+      CourClassDescription = #{courclassdescription,jdbcType=VARCHAR}
+    where CourClassID = #{courclassid,jdbcType=INTEGER}
+  </update>
+</mapper>

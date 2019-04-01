@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.StutaskanswerMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Stutaskanswer">
+    <id column="TaskAnswerID" jdbcType="INTEGER" property="taskanswerid" />
+    <result column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="ClassTaskID" jdbcType="INTEGER" property="classtaskid" />
+    <result column="SubmitTime" jdbcType="DATE" property="submittime" />
+    <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="TotalScore" jdbcType="DOUBLE" property="totalscore" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TaskAnswerID, UserID, ClassTaskID, SubmitTime, Status, TotalScore
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stutaskanswer
+    where TaskAnswerID = #{taskanswerid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stutaskanswer
+    where TaskAnswerID = #{taskanswerid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    insert into stutaskanswer (TaskAnswerID, UserID, ClassTaskID, 
+      SubmitTime, Status, TotalScore
+      )
+    values (#{taskanswerid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{classtaskid,jdbcType=INTEGER}, 
+      #{submittime,jdbcType=DATE}, #{status,jdbcType=INTEGER}, #{totalscore,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    insert into stutaskanswer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskanswerid != null">
+        TaskAnswerID,
+      </if>
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="classtaskid != null">
+        ClassTaskID,
+      </if>
+      <if test="submittime != null">
+        SubmitTime,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="totalscore != null">
+        TotalScore,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskanswerid != null">
+        #{taskanswerid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="classtaskid != null">
+        #{classtaskid,jdbcType=INTEGER},
+      </if>
+      <if test="submittime != null">
+        #{submittime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="totalscore != null">
+        #{totalscore,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    update stutaskanswer
+    <set>
+      <if test="userid != null">
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="classtaskid != null">
+        ClassTaskID = #{classtaskid,jdbcType=INTEGER},
+      </if>
+      <if test="submittime != null">
+        SubmitTime = #{submittime,jdbcType=DATE},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="totalscore != null">
+        TotalScore = #{totalscore,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where TaskAnswerID = #{taskanswerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    update stutaskanswer
+    set UserID = #{userid,jdbcType=INTEGER},
+      ClassTaskID = #{classtaskid,jdbcType=INTEGER},
+      SubmitTime = #{submittime,jdbcType=DATE},
+      Status = #{status,jdbcType=INTEGER},
+      TotalScore = #{totalscore,jdbcType=DOUBLE}
+    where TaskAnswerID = #{taskanswerid,jdbcType=INTEGER}
+  </update>
+</mapper>

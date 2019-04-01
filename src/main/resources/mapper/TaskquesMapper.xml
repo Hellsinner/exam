@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.TaskquesMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Taskques">
+    <id column="TaskQuesId" jdbcType="INTEGER" property="taskquesid" />
+    <result column="TaskID" jdbcType="INTEGER" property="taskid" />
+    <result column="QuesID" jdbcType="INTEGER" property="quesid" />
+    <result column="Point" jdbcType="DOUBLE" property="point" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TaskQuesId, TaskID, QuesID, Point, Description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from taskques
+    where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from taskques
+    where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    insert into taskques (TaskQuesId, TaskID, QuesID, 
+      Point, Description)
+    values (#{taskquesid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{quesid,jdbcType=INTEGER}, 
+      #{point,jdbcType=DOUBLE}, #{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    insert into taskques
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskquesid != null">
+        TaskQuesId,
+      </if>
+      <if test="taskid != null">
+        TaskID,
+      </if>
+      <if test="quesid != null">
+        QuesID,
+      </if>
+      <if test="point != null">
+        Point,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskquesid != null">
+        #{taskquesid,jdbcType=INTEGER},
+      </if>
+      <if test="taskid != null">
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="quesid != null">
+        #{quesid,jdbcType=INTEGER},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=DOUBLE},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    update taskques
+    <set>
+      <if test="taskid != null">
+        TaskID = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="quesid != null">
+        QuesID = #{quesid,jdbcType=INTEGER},
+      </if>
+      <if test="point != null">
+        Point = #{point,jdbcType=DOUBLE},
+      </if>
+      <if test="description != null">
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    update taskques
+    set TaskID = #{taskid,jdbcType=INTEGER},
+      QuesID = #{quesid,jdbcType=INTEGER},
+      Point = #{point,jdbcType=DOUBLE},
+      Description = #{description,jdbcType=VARCHAR}
+    where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
+  </update>
+</mapper>

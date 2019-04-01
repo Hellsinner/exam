@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.TaskconstructMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Taskconstruct">
+    <id column="StrategyID" jdbcType="INTEGER" property="strategyid" />
+    <result column="TaskID" jdbcType="INTEGER" property="taskid" />
+    <result column="TypeID" jdbcType="INTEGER" property="typeid" />
+    <result column="QuesCount" jdbcType="INTEGER" property="quescount" />
+    <result column="TypePoints" jdbcType="INTEGER" property="typepoints" />
+    <result column="StrategyName" jdbcType="VARCHAR" property="strategyname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    StrategyID, TaskID, TypeID, QuesCount, TypePoints, StrategyName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from taskconstruct
+    where StrategyID = #{strategyid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from taskconstruct
+    where StrategyID = #{strategyid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    insert into taskconstruct (StrategyID, TaskID, TypeID, 
+      QuesCount, TypePoints, StrategyName
+      )
+    values (#{strategyid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, 
+      #{quescount,jdbcType=INTEGER}, #{typepoints,jdbcType=INTEGER}, #{strategyname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    insert into taskconstruct
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="strategyid != null">
+        StrategyID,
+      </if>
+      <if test="taskid != null">
+        TaskID,
+      </if>
+      <if test="typeid != null">
+        TypeID,
+      </if>
+      <if test="quescount != null">
+        QuesCount,
+      </if>
+      <if test="typepoints != null">
+        TypePoints,
+      </if>
+      <if test="strategyname != null">
+        StrategyName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="strategyid != null">
+        #{strategyid,jdbcType=INTEGER},
+      </if>
+      <if test="taskid != null">
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null">
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="quescount != null">
+        #{quescount,jdbcType=INTEGER},
+      </if>
+      <if test="typepoints != null">
+        #{typepoints,jdbcType=INTEGER},
+      </if>
+      <if test="strategyname != null">
+        #{strategyname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    update taskconstruct
+    <set>
+      <if test="taskid != null">
+        TaskID = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null">
+        TypeID = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="quescount != null">
+        QuesCount = #{quescount,jdbcType=INTEGER},
+      </if>
+      <if test="typepoints != null">
+        TypePoints = #{typepoints,jdbcType=INTEGER},
+      </if>
+      <if test="strategyname != null">
+        StrategyName = #{strategyname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where StrategyID = #{strategyid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    update taskconstruct
+    set TaskID = #{taskid,jdbcType=INTEGER},
+      TypeID = #{typeid,jdbcType=INTEGER},
+      QuesCount = #{quescount,jdbcType=INTEGER},
+      TypePoints = #{typepoints,jdbcType=INTEGER},
+      StrategyName = #{strategyname,jdbcType=VARCHAR}
+    where StrategyID = #{strategyid,jdbcType=INTEGER}
+  </update>
+</mapper>

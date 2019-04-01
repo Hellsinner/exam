@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.TestcaseMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Testcase">
+    <id column="TestCaseID" jdbcType="INTEGER" property="testcaseid" />
+    <result column="QuesID" jdbcType="INTEGER" property="quesid" />
+    <result column="CaseIndex" jdbcType="INTEGER" property="caseindex" />
+    <result column="CaseInputfilePath" jdbcType="VARCHAR" property="caseinputfilepath" />
+    <result column="CaseOutputfilePath" jdbcType="VARCHAR" property="caseoutputfilepath" />
+    <result column="CaseTermiInput1" jdbcType="VARCHAR" property="casetermiinput1" />
+    <result column="CaseTermiOutput" jdbcType="VARCHAR" property="casetermioutput" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    TestCaseID, QuesID, CaseIndex, CaseInputfilePath, CaseOutputfilePath, CaseTermiInput1, 
+    CaseTermiOutput
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from testcase
+    where TestCaseID = #{testcaseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from testcase
+    where TestCaseID = #{testcaseid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    insert into testcase (TestCaseID, QuesID, CaseIndex, 
+      CaseInputfilePath, CaseOutputfilePath, 
+      CaseTermiInput1, CaseTermiOutput)
+    values (#{testcaseid,jdbcType=INTEGER}, #{quesid,jdbcType=INTEGER}, #{caseindex,jdbcType=INTEGER}, 
+      #{caseinputfilepath,jdbcType=VARCHAR}, #{caseoutputfilepath,jdbcType=VARCHAR}, 
+      #{casetermiinput1,jdbcType=VARCHAR}, #{casetermioutput,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    insert into testcase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="testcaseid != null">
+        TestCaseID,
+      </if>
+      <if test="quesid != null">
+        QuesID,
+      </if>
+      <if test="caseindex != null">
+        CaseIndex,
+      </if>
+      <if test="caseinputfilepath != null">
+        CaseInputfilePath,
+      </if>
+      <if test="caseoutputfilepath != null">
+        CaseOutputfilePath,
+      </if>
+      <if test="casetermiinput1 != null">
+        CaseTermiInput1,
+      </if>
+      <if test="casetermioutput != null">
+        CaseTermiOutput,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="testcaseid != null">
+        #{testcaseid,jdbcType=INTEGER},
+      </if>
+      <if test="quesid != null">
+        #{quesid,jdbcType=INTEGER},
+      </if>
+      <if test="caseindex != null">
+        #{caseindex,jdbcType=INTEGER},
+      </if>
+      <if test="caseinputfilepath != null">
+        #{caseinputfilepath,jdbcType=VARCHAR},
+      </if>
+      <if test="caseoutputfilepath != null">
+        #{caseoutputfilepath,jdbcType=VARCHAR},
+      </if>
+      <if test="casetermiinput1 != null">
+        #{casetermiinput1,jdbcType=VARCHAR},
+      </if>
+      <if test="casetermioutput != null">
+        #{casetermioutput,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    update testcase
+    <set>
+      <if test="quesid != null">
+        QuesID = #{quesid,jdbcType=INTEGER},
+      </if>
+      <if test="caseindex != null">
+        CaseIndex = #{caseindex,jdbcType=INTEGER},
+      </if>
+      <if test="caseinputfilepath != null">
+        CaseInputfilePath = #{caseinputfilepath,jdbcType=VARCHAR},
+      </if>
+      <if test="caseoutputfilepath != null">
+        CaseOutputfilePath = #{caseoutputfilepath,jdbcType=VARCHAR},
+      </if>
+      <if test="casetermiinput1 != null">
+        CaseTermiInput1 = #{casetermiinput1,jdbcType=VARCHAR},
+      </if>
+      <if test="casetermioutput != null">
+        CaseTermiOutput = #{casetermioutput,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TestCaseID = #{testcaseid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    update testcase
+    set QuesID = #{quesid,jdbcType=INTEGER},
+      CaseIndex = #{caseindex,jdbcType=INTEGER},
+      CaseInputfilePath = #{caseinputfilepath,jdbcType=VARCHAR},
+      CaseOutputfilePath = #{caseoutputfilepath,jdbcType=VARCHAR},
+      CaseTermiInput1 = #{casetermiinput1,jdbcType=VARCHAR},
+      CaseTermiOutput = #{casetermioutput,jdbcType=VARCHAR}
+    where TestCaseID = #{testcaseid,jdbcType=INTEGER}
+  </update>
+</mapper>

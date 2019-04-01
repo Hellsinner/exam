@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.QuesanswerMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Quesanswer">
+    <id column="AnswerID" jdbcType="INTEGER" property="answerid" />
+    <result column="TaskAnswerId" jdbcType="INTEGER" property="taskanswerid" />
+    <result column="TaskQuesId" jdbcType="INTEGER" property="taskquesid" />
+    <result column="Score" jdbcType="DOUBLE" property="score" />
+    <result column="UsedTime" jdbcType="INTEGER" property="usedtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hellsinner.exam.model.dao.Quesanswer">
+    <result column="Answer" jdbcType="LONGVARCHAR" property="answer" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    AnswerID, TaskAnswerId, TaskQuesId, Score, UsedTime
+  </sql>
+  <sql id="Blob_Column_List">
+    Answer
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from quesanswer
+    where AnswerID = #{answerid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from quesanswer
+    where AnswerID = #{answerid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    insert into quesanswer (AnswerID, TaskAnswerId, TaskQuesId, 
+      Score, UsedTime, Answer
+      )
+    values (#{answerid,jdbcType=INTEGER}, #{taskanswerid,jdbcType=INTEGER}, #{taskquesid,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{usedtime,jdbcType=INTEGER}, #{answer,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    insert into quesanswer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="answerid != null">
+        AnswerID,
+      </if>
+      <if test="taskanswerid != null">
+        TaskAnswerId,
+      </if>
+      <if test="taskquesid != null">
+        TaskQuesId,
+      </if>
+      <if test="score != null">
+        Score,
+      </if>
+      <if test="usedtime != null">
+        UsedTime,
+      </if>
+      <if test="answer != null">
+        Answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="answerid != null">
+        #{answerid,jdbcType=INTEGER},
+      </if>
+      <if test="taskanswerid != null">
+        #{taskanswerid,jdbcType=INTEGER},
+      </if>
+      <if test="taskquesid != null">
+        #{taskquesid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="usedtime != null">
+        #{usedtime,jdbcType=INTEGER},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    update quesanswer
+    <set>
+      <if test="taskanswerid != null">
+        TaskAnswerId = #{taskanswerid,jdbcType=INTEGER},
+      </if>
+      <if test="taskquesid != null">
+        TaskQuesId = #{taskquesid,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        Score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="usedtime != null">
+        UsedTime = #{usedtime,jdbcType=INTEGER},
+      </if>
+      <if test="answer != null">
+        Answer = #{answer,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where AnswerID = #{answerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    update quesanswer
+    set TaskAnswerId = #{taskanswerid,jdbcType=INTEGER},
+      TaskQuesId = #{taskquesid,jdbcType=INTEGER},
+      Score = #{score,jdbcType=DOUBLE},
+      UsedTime = #{usedtime,jdbcType=INTEGER},
+      Answer = #{answer,jdbcType=LONGVARCHAR}
+    where AnswerID = #{answerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    update quesanswer
+    set TaskAnswerId = #{taskanswerid,jdbcType=INTEGER},
+      TaskQuesId = #{taskquesid,jdbcType=INTEGER},
+      Score = #{score,jdbcType=DOUBLE},
+      UsedTime = #{usedtime,jdbcType=INTEGER}
+    where AnswerID = #{answerid,jdbcType=INTEGER}
+  </update>
+</mapper>

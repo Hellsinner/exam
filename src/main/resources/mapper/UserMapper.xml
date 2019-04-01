@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.User">
+    <id column="UserID" jdbcType="INTEGER" property="userid" />
+    <result column="OrgID" jdbcType="INTEGER" property="orgid" />
+    <result column="UserType" jdbcType="INTEGER" property="usertype" />
+    <result column="LoginID" jdbcType="VARCHAR" property="loginid" />
+    <result column="Password" jdbcType="VARCHAR" property="password" />
+    <result column="PersonID" jdbcType="INTEGER" property="personid" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="Telnum" jdbcType="VARCHAR" property="telnum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UserID, OrgID, UserType, LoginID, Password, PersonID, Name, Nickname, Email, Telnum
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByEmail" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where Email = #{email,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where UserID in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where UserID = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.User">
+    insert into user (UserID, OrgID, UserType, 
+      LoginID, Password, PersonID, 
+      Name, Nickname, Email, 
+      Telnum)
+    values (#{userid,jdbcType=INTEGER}, #{orgid,jdbcType=INTEGER}, #{usertype,jdbcType=INTEGER}, 
+      #{loginid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{personid,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{telnum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        UserID,
+      </if>
+      <if test="orgid != null">
+        OrgID,
+      </if>
+      <if test="usertype != null">
+        UserType,
+      </if>
+      <if test="loginid != null">
+        LoginID,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="personid != null">
+        PersonID,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="nickname != null">
+        Nickname,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="telnum != null">
+        Telnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="orgid != null">
+        #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="usertype != null">
+        #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="loginid != null">
+        #{loginid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null">
+        #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null">
+        #{telnum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.User">
+    update user
+    <set>
+      <if test="orgid != null">
+        OrgID = #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="usertype != null">
+        UserType = #{usertype,jdbcType=INTEGER},
+      </if>
+      <if test="loginid != null">
+        LoginID = #{loginid,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="personid != null">
+        PersonID = #{personid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        Nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telnum != null">
+        Telnum = #{telnum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.User">
+    update user
+    set OrgID = #{orgid,jdbcType=INTEGER},
+      UserType = #{usertype,jdbcType=INTEGER},
+      LoginID = #{loginid,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      PersonID = #{personid,jdbcType=INTEGER},
+      Name = #{name,jdbcType=VARCHAR},
+      Nickname = #{nickname,jdbcType=VARCHAR},
+      Email = #{email,jdbcType=VARCHAR},
+      Telnum = #{telnum,jdbcType=VARCHAR}
+    where UserID = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

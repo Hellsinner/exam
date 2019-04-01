@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.OrgMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Org">
+    <id column="OrgID" jdbcType="INTEGER" property="orgid" />
+    <result column="Org_OrgID" jdbcType="INTEGER" property="orgOrgid" />
+    <result column="OrgName" jdbcType="VARCHAR" property="orgname" />
+    <result column="OrgShortName" jdbcType="VARCHAR" property="orgshortname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    OrgID, Org_OrgID, OrgName, OrgShortName
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from org
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </select>
+  <select id="searchByName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from org
+    where OrgName like '%${parentName}%'
+  </select>
+  <select id="searchByForm" parameterType="com.hellsinner.exam.model.web.OrgForm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from org
+    where Org_OrgID = #{parentId,jdbcType=INTEGER} and OrgName like '%${parentName}%'
+  </select>
+  <select id="getOrgByChildId" resultType="com.hellsinner.exam.model.web.OrgForm">
+    select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName
+    from   org child   inner   join  org parent
+    on   child.OrgID = #{childId,jdbcType=INTEGER} and child.Org_OrgID = parent.OrgID
+  </select>
+  <select id="selectByIds" resultType="com.hellsinner.exam.model.web.OrgForm">
+    select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName
+    from   org child   inner   join  org parent
+    on   child.OrgID in
+    <foreach collection="orgids" item="orgid" open="(" close=")" separator=",">
+      #{orgid}
+    </foreach>
+    and child.Org_OrgID = parent.OrgID
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from org
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Org">
+    <selectKey keyProperty="orgid" resultType="int" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into org (Org_OrgID, OrgName,
+      OrgShortName)
+    values (#{orgOrgid,jdbcType=INTEGER}, #{orgname,jdbcType=VARCHAR},
+      #{orgshortname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Org">
+    insert into org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        OrgID,
+      </if>
+      <if test="orgOrgid != null">
+        Org_OrgID,
+      </if>
+      <if test="orgname != null">
+        OrgName,
+      </if>
+      <if test="orgshortname != null">
+        OrgShortName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orgid != null">
+        #{orgid,jdbcType=INTEGER},
+      </if>
+      <if test="orgOrgid != null">
+        #{orgOrgid,jdbcType=INTEGER},
+      </if>
+      <if test="orgname != null">
+        #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgshortname != null">
+        #{orgshortname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Org">
+    update org
+    <set>
+      <if test="orgOrgid != null">
+        Org_OrgID = #{orgOrgid,jdbcType=INTEGER},
+      </if>
+      <if test="orgname != null">
+        OrgName = #{orgname,jdbcType=VARCHAR},
+      </if>
+      <if test="orgshortname != null">
+        OrgShortName = #{orgshortname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Org">
+    update org
+    set Org_OrgID = #{orgOrgid,jdbcType=INTEGER},
+      OrgName = #{orgname,jdbcType=VARCHAR},
+      OrgShortName = #{orgshortname,jdbcType=VARCHAR}
+    where OrgID = #{orgid,jdbcType=INTEGER}
+  </update>
+</mapper>

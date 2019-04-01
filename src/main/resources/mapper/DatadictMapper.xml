@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.DatadictMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Datadict">
+    <id column="DictID" jdbcType="INTEGER" property="dictid" />
+    <result column="SuperDictID" jdbcType="INTEGER" property="superdictid" />
+    <result column="DictIndex" jdbcType="INTEGER" property="dictindex" />
+    <result column="Value" jdbcType="VARCHAR" property="value" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Description" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    DictID, SuperDictID, DictIndex, Value, Name, Description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from datadict
+    where DictID = #{dictid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from datadict
+    where DictID = #{dictid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Datadict">
+    insert into datadict (DictID, SuperDictID, DictIndex, 
+      Value, Name, Description
+      )
+    values (#{dictid,jdbcType=INTEGER}, #{superdictid,jdbcType=INTEGER}, #{dictindex,jdbcType=INTEGER}, 
+      #{value,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Datadict">
+    insert into datadict
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictid != null">
+        DictID,
+      </if>
+      <if test="superdictid != null">
+        SuperDictID,
+      </if>
+      <if test="dictindex != null">
+        DictIndex,
+      </if>
+      <if test="value != null">
+        Value,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="description != null">
+        Description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictid != null">
+        #{dictid,jdbcType=INTEGER},
+      </if>
+      <if test="superdictid != null">
+        #{superdictid,jdbcType=INTEGER},
+      </if>
+      <if test="dictindex != null">
+        #{dictindex,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Datadict">
+    update datadict
+    <set>
+      <if test="superdictid != null">
+        SuperDictID = #{superdictid,jdbcType=INTEGER},
+      </if>
+      <if test="dictindex != null">
+        DictIndex = #{dictindex,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        Value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DictID = #{dictid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Datadict">
+    update datadict
+    set SuperDictID = #{superdictid,jdbcType=INTEGER},
+      DictIndex = #{dictindex,jdbcType=INTEGER},
+      Value = #{value,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR},
+      Description = #{description,jdbcType=VARCHAR}
+    where DictID = #{dictid,jdbcType=INTEGER}
+  </update>
+</mapper>

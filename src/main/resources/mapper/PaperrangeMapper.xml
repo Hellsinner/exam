@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hellsinner.exam.dao.PaperrangeMapper">
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Paperrange">
+    <id column="PaperRangeID" jdbcType="INTEGER" property="paperrangeid" />
+    <result column="TaskID" jdbcType="INTEGER" property="taskid" />
+    <result column="UnitID" jdbcType="INTEGER" property="unitid" />
+    <result column="Points" jdbcType="INTEGER" property="points" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PaperRangeID, TaskID, UnitID, Points
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from paperrange
+    where PaperRangeID = #{paperrangeid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from paperrange
+    where PaperRangeID = #{paperrangeid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    insert into paperrange (PaperRangeID, TaskID, UnitID, 
+      Points)
+    values (#{paperrangeid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{unitid,jdbcType=INTEGER}, 
+      #{points,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    insert into paperrange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paperrangeid != null">
+        PaperRangeID,
+      </if>
+      <if test="taskid != null">
+        TaskID,
+      </if>
+      <if test="unitid != null">
+        UnitID,
+      </if>
+      <if test="points != null">
+        Points,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paperrangeid != null">
+        #{paperrangeid,jdbcType=INTEGER},
+      </if>
+      <if test="taskid != null">
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="unitid != null">
+        #{unitid,jdbcType=INTEGER},
+      </if>
+      <if test="points != null">
+        #{points,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    update paperrange
+    <set>
+      <if test="taskid != null">
+        TaskID = #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="unitid != null">
+        UnitID = #{unitid,jdbcType=INTEGER},
+      </if>
+      <if test="points != null">
+        Points = #{points,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PaperRangeID = #{paperrangeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    update paperrange
+    set TaskID = #{taskid,jdbcType=INTEGER},
+      UnitID = #{unitid,jdbcType=INTEGER},
+      Points = #{points,jdbcType=INTEGER}
+    where PaperRangeID = #{paperrangeid,jdbcType=INTEGER}
+  </update>
+</mapper>
