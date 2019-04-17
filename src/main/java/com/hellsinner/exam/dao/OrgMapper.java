@@ -1,7 +1,6 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Org;
-import com.hellsinner.exam.model.web.OrgForm;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,10 +19,10 @@ public interface OrgMapper {
     int updateByPrimaryKey(Org record);
 
     List<Org> searchByName(@Param("parentName") String parentName);
-
-    List<Org> searchByForm(OrgForm orgForm);
-
-    OrgForm getOrgByChildId(@Param("childId") Integer childId);
-
-    List<OrgForm> selectByIds(@Param("orgids") List<Integer> orgids);
+//
+//    List<Org> searchByForm(OrgForm orgForm);
+//
+//    OrgForm getOrgByChildId(@Param("childId") Integer childId);
+//
+//    List<OrgForm> selectByIds(@Param("orgids") List<Integer> orgids);
 }

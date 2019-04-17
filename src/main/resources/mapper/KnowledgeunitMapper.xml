@@ -17,17 +17,29 @@
     from knowledgeunit
     where UnitID = #{unitid,jdbcType=INTEGER}
   </select>
+  <select id="selectByCid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from knowledgeunit
+    where CourID = #{cid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from knowledgeunit
     where UnitID = #{unitid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    <selectKey resultType="int" order="AFTER" keyProperty="unitid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into knowledgeunit (UnitID, SuperUnitID, CourID, 
       UnitName, Description)
     values (#{unitid,jdbcType=INTEGER}, #{superunitid,jdbcType=INTEGER}, #{courid,jdbcType=INTEGER}, 
       #{unitname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Knowledgeunit">
+    <selectKey resultType="int" order="AFTER" keyProperty="unitid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into knowledgeunit
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="unitid != null">

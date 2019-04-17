@@ -22,26 +22,26 @@
     from org
     where OrgName like '%${parentName}%'
   </select>
-  <select id="searchByForm" parameterType="com.hellsinner.exam.model.web.OrgForm" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from org
-    where Org_OrgID = #{parentId,jdbcType=INTEGER} and OrgName like '%${parentName}%'
-  </select>
-  <select id="getOrgByChildId" resultType="com.hellsinner.exam.model.web.OrgForm">
-    select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName
-    from   org child   inner   join  org parent
-    on   child.OrgID = #{childId,jdbcType=INTEGER} and child.Org_OrgID = parent.OrgID
-  </select>
-  <select id="selectByIds" resultType="com.hellsinner.exam.model.web.OrgForm">
-    select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName
-    from   org child   inner   join  org parent
-    on   child.OrgID in
-    <foreach collection="orgids" item="orgid" open="(" close=")" separator=",">
-      #{orgid}
-    </foreach>
-    and child.Org_OrgID = parent.OrgID
-  </select>
+  <!--<select id="searchByForm" parameterType="com.hellsinner.exam.model.web.OrgForm" resultMap="BaseResultMap">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from org-->
+    <!--where Org_OrgID = #{parentId,jdbcType=INTEGER} and OrgName like '%${parentName}%'-->
+  <!--</select>-->
+  <!--<select id="getOrgByChildId" resultType="com.hellsinner.exam.model.web.OrgForm">-->
+    <!--select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName-->
+    <!--from   org child   inner   join  org parent-->
+    <!--on   child.OrgID = #{childId,jdbcType=INTEGER} and child.Org_OrgID = parent.OrgID-->
+  <!--</select>-->
+  <!--<select id="selectByIds" resultType="com.hellsinner.exam.model.web.OrgForm">-->
+    <!--select parent.OrgID parentId,parent.OrgName parentName,child.OrgID childId, child.OrgName childName-->
+    <!--from   org child   inner   join  org parent-->
+    <!--on   child.OrgID in-->
+    <!--<foreach collection="orgids" item="orgid" open="(" close=")" separator=",">-->
+      <!--#{orgid}-->
+    <!--</foreach>-->
+    <!--and child.Org_OrgID = parent.OrgID-->
+  <!--</select>-->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from org
     where OrgID = #{orgid,jdbcType=INTEGER}

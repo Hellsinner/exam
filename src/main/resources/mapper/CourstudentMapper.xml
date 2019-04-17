@@ -43,12 +43,18 @@
     where UserID = #{uid,jdbcType=INTEGER} and CourClassID = #{cid,jdbcType=INTEGER}
   </update>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Courstudent">
+    <selectKey resultType="int" order="AFTER" keyProperty="selcourid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into courstudent (SelCourID, UserID, CourClassID, 
       Comment)
     values (#{selcourid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{courclassid,jdbcType=INTEGER}, 
       #{comment,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courstudent">
+    <selectKey resultType="int" order="AFTER" keyProperty="selcourid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into courstudent
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="selcourid != null">

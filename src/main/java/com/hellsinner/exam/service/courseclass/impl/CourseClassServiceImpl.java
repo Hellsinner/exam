@@ -7,7 +7,6 @@ import com.hellsinner.exam.model.dao.Courseclass;
 import com.hellsinner.exam.model.dao.Courstudent;
 import com.hellsinner.exam.model.dao.User;
 import com.hellsinner.exam.model.web.CourseClassInfo;
-import com.hellsinner.exam.model.web.UserInfo;
 import com.hellsinner.exam.service.courseclass.CourseClassService;
 import com.hellsinner.exam.service.courstudent.CourstudentService;
 import com.hellsinner.exam.service.user.UserService;
@@ -15,7 +14,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,10 +80,10 @@ public class CourseClassServiceImpl implements CourseClassService {
     }
 
     @Override
-    public List<UserInfo> getCourseClassStudents(Integer id) {
+    public List<User> getCourseClassStudents(Integer id) {
         List<Courstudent> classStudents = courstudentService.getClassStudents(id);
 
-        List<UserInfo> userInfos = userService.batchGetUserInfo(classStudents);
+        List<User> userInfos = userService.batchGetUserInfo(classStudents);
 
         return userInfos;
     }

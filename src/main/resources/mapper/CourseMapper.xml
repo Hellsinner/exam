@@ -26,12 +26,18 @@
     where CourID = #{courid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Course">
+    <selectKey resultType="int" order="AFTER" keyProperty="courid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into course (CourID, CourName, CourDescription, 
       Status)
     values (#{courid,jdbcType=INTEGER}, #{courname,jdbcType=VARCHAR}, #{courdescription,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Course">
+    <selectKey resultType="int" order="AFTER" keyProperty="courid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into course
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="courid != null">

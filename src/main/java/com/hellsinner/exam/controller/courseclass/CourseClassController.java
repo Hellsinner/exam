@@ -7,10 +7,9 @@ import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.service.courseclass.CourseClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class CourseClassController {
@@ -20,7 +19,7 @@ public class CourseClassController {
 
     @PostMapping("/courseClass/create")
     @Authorize(value = 1)
-    public Result addCourseClass(Courseclass courseclass, BindingResult result){
+    public Result addCourseClass(@RequestBody @Valid Courseclass courseclass, BindingResult result){
         if (result.hasErrors()){
             return Result.failed(ExamException.ExamExceptionEnum.CREATE_CLASS_PARAMS_Insufficient);
         }

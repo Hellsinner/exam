@@ -1,27 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hellsinner.exam.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.User">
-    <id column="UserID" jdbcType="INTEGER" property="userid" />
-    <result column="OrgID" jdbcType="INTEGER" property="orgid" />
-    <result column="UserType" jdbcType="INTEGER" property="usertype" />
-    <result column="LoginID" jdbcType="VARCHAR" property="loginid" />
-    <result column="Password" jdbcType="VARCHAR" property="password" />
-    <result column="PersonID" jdbcType="INTEGER" property="personid" />
-    <result column="Name" jdbcType="VARCHAR" property="name" />
-    <result column="Nickname" jdbcType="VARCHAR" property="nickname" />
-    <result column="Email" jdbcType="VARCHAR" property="email" />
-    <result column="Telnum" jdbcType="VARCHAR" property="telnum" />
+<mapper namespace="com.hellsinner.exam.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.User" >
+    <id column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="OrgName" property="orgname" jdbcType="VARCHAR" />
+    <result column="UserType" property="usertype" jdbcType="INTEGER" />
+    <result column="LoginID" property="loginid" jdbcType="VARCHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="PersonID" property="personid" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Telnum" property="telnum" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List">
-    UserID, OrgID, UserType, LoginID, Password, PersonID, Name, Nickname, Email, Telnum
+  <sql id="Base_Column_List" >
+    UserID, OrgName, UserType, LoginID, Password, PersonID, Name, Nickname, Email, Telnum
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where UserID = #{userid,jdbcType=INTEGER}
-  </select>
   <select id="selectByEmail" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -37,127 +31,139 @@
       #{id}
     </foreach>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
     where UserID = #{userid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.User">
-    insert into user (UserID, OrgID, UserType, 
+  <insert id="insert" parameterType="com.hellsinner.exam.model.dao.User" >
+    <selectKey resultType="int" order="AFTER" keyProperty="userid">
+      select LAST_INSERT_ID()
+    </selectKey>
+    insert into user (UserID, OrgName, UserType, 
       LoginID, Password, PersonID, 
       Name, Nickname, Email, 
       Telnum)
-    values (#{userid,jdbcType=INTEGER}, #{orgid,jdbcType=INTEGER}, #{usertype,jdbcType=INTEGER}, 
-      #{loginid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{personid,jdbcType=INTEGER}, 
+    values (#{userid,jdbcType=INTEGER}, #{orgname,jdbcType=VARCHAR}, #{usertype,jdbcType=INTEGER}, 
+      #{loginid,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{personid,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{telnum,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.User">
+  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.User" >
+    <selectKey resultType="int" order="AFTER" keyProperty="userid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userid != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
         UserID,
       </if>
-      <if test="orgid != null">
-        OrgID,
+      <if test="orgname != null" >
+        OrgName,
       </if>
-      <if test="usertype != null">
+      <if test="usertype != null" >
         UserType,
       </if>
-      <if test="loginid != null">
+      <if test="loginid != null" >
         LoginID,
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         Password,
       </if>
-      <if test="personid != null">
+      <if test="personid != null" >
         PersonID,
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         Name,
       </if>
-      <if test="nickname != null">
+      <if test="nickname != null" >
         Nickname,
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         Email,
       </if>
-      <if test="telnum != null">
+      <if test="telnum != null" >
         Telnum,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userid != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
       </if>
-      <if test="orgid != null">
-        #{orgid,jdbcType=INTEGER},
+      <if test="orgname != null" >
+        #{orgname,jdbcType=VARCHAR},
       </if>
-      <if test="usertype != null">
+      <if test="usertype != null" >
         #{usertype,jdbcType=INTEGER},
       </if>
-      <if test="loginid != null">
+      <if test="loginid != null" >
         #{loginid,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="personid != null">
-        #{personid,jdbcType=INTEGER},
+      <if test="personid != null" >
+        #{personid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null">
+      <if test="nickname != null" >
         #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="telnum != null">
+      <if test="telnum != null" >
         #{telnum,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.User" >
     update user
-    <set>
-      <if test="orgid != null">
-        OrgID = #{orgid,jdbcType=INTEGER},
+    <set >
+      <if test="orgname != null" >
+        OrgName = #{orgname,jdbcType=VARCHAR},
       </if>
-      <if test="usertype != null">
+      <if test="usertype != null" >
         UserType = #{usertype,jdbcType=INTEGER},
       </if>
-      <if test="loginid != null">
+      <if test="loginid != null" >
         LoginID = #{loginid,jdbcType=VARCHAR},
       </if>
-      <if test="password != null">
+      <if test="password != null" >
         Password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="personid != null">
-        PersonID = #{personid,jdbcType=INTEGER},
+      <if test="personid != null" >
+        PersonID = #{personid,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         Name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickname != null">
+      <if test="nickname != null" >
         Nickname = #{nickname,jdbcType=VARCHAR},
       </if>
-      <if test="email != null">
+      <if test="email != null" >
         Email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="telnum != null">
+      <if test="telnum != null" >
         Telnum = #{telnum,jdbcType=VARCHAR},
       </if>
     </set>
     where UserID = #{userid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.User">
+  <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.User" >
     update user
-    set OrgID = #{orgid,jdbcType=INTEGER},
+    set OrgName = #{orgname,jdbcType=VARCHAR},
       UserType = #{usertype,jdbcType=INTEGER},
       LoginID = #{loginid,jdbcType=VARCHAR},
       Password = #{password,jdbcType=VARCHAR},
-      PersonID = #{personid,jdbcType=INTEGER},
+      PersonID = #{personid,jdbcType=VARCHAR},
       Name = #{name,jdbcType=VARCHAR},
       Nickname = #{nickname,jdbcType=VARCHAR},
       Email = #{email,jdbcType=VARCHAR},

@@ -15,15 +15,19 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class User {
     private Integer userid;
+
     /**
-     * 机构id
+     * 机构名称
      */
-    private Integer orgid;
+    @NotBlank(groups = Register.class)
+    private String orgname;
+
     /**
      * 用户类型 0:学生 1:教师
      */
     @NotNull(groups = Register.class)
     private Integer usertype;
+
     /**
      * 登录账号
      */
@@ -36,16 +40,19 @@ public class User {
     /**
      * 学生(学号)/教师(工号)
      */
-    private Integer personid;
+    private String personid;
+
     /**
      * 姓名
      */
     @NotBlank(groups = Register.class)
     private String name;
+
     /**
      * 昵称
      */
     private String nickname;
+
     /**
      * 邮箱
      */
@@ -54,7 +61,6 @@ public class User {
     /**
      * 手机号
      */
-    @NotBlank(groups = Register.class)
     private String telnum;
 
     public interface Login{}

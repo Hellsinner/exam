@@ -24,6 +24,9 @@
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
+    <selectKey resultType="int" order="AFTER" keyProperty="classtaskid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into courseclasstask (ClassTaskID, TaskID, CourClassID, 
       ClassTaskName, StartTime, EndTime, 
       Status)
@@ -32,6 +35,9 @@
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
+    <selectKey resultType="int" order="AFTER" keyProperty="classtaskid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into courseclasstask
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="classtaskid != null">

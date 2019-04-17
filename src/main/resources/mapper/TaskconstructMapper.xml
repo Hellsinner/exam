@@ -23,6 +23,9 @@
     where StrategyID = #{strategyid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    <selectKey resultType="int" order="AFTER" keyProperty="strategyid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into taskconstruct (StrategyID, TaskID, TypeID, 
       QuesCount, TypePoints, StrategyName
       )
@@ -31,6 +34,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
+    <selectKey resultType="int" order="AFTER" keyProperty="strategyid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into taskconstruct
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="strategyid != null">

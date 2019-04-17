@@ -22,12 +22,18 @@
     where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    <selectKey resultType="int" order="AFTER" keyProperty="taskquesid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into taskques (TaskQuesId, TaskID, QuesID, 
       Point, Description)
     values (#{taskquesid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{quesid,jdbcType=INTEGER}, 
       #{point,jdbcType=DOUBLE}, #{description,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Taskques">
+    <selectKey resultType="int" order="AFTER" keyProperty="taskquesid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into taskques
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="taskquesid != null">

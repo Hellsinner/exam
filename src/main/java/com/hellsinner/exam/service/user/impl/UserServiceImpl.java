@@ -5,13 +5,9 @@ import com.hellsinner.exam.component.ExamException;
 import com.hellsinner.exam.component.UserContext;
 import com.hellsinner.exam.dao.UserMapper;
 import com.hellsinner.exam.model.dao.Courstudent;
-import com.hellsinner.exam.model.dao.Org;
 import com.hellsinner.exam.model.dao.User;
 import com.hellsinner.exam.model.web.LoginUser;
-import com.hellsinner.exam.model.web.OrgForm;
 import com.hellsinner.exam.model.web.PassWordForm;
-import com.hellsinner.exam.model.web.UserInfo;
-import com.hellsinner.exam.service.org.OrgService;
 import com.hellsinner.exam.service.user.UserService;
 import com.hellsinner.exam.utils.JwtUtils;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -41,9 +37,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
-    @Autowired
-    private OrgService orgService;
 
     @Autowired
     private UserMapper userMapper;
@@ -98,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(LoginUser loginUser,OrgForm orgForm) {
+    public void register(LoginUser loginUser) {
         String pin = stringRedisTemplate.opsForValue().get(loginUser.getToken());
         //验证码错误
         if (!pin.equals(loginUser.getPin())){
@@ -109,45 +102,8 @@ public class UserServiceImpl implements UserService {
         if(user != null){
             throw new ExamException(ExamException.ExamExceptionEnum.EMAIL_HAS_REGISTER);
         }
-        loginUser.setOrgid(dealOrg(orgForm));
         loginUser.setPassword(DigestUtils.md5Hex(salt+loginUser.getPassword()));
         userMapper.insert(LoginUser.adapterUser(loginUser));
-    }
-
-    private Integer dealOrg(OrgForm orgForm){
-        if (orgForm.getParentId() != null){
-            Org org = orgService.getOrg(orgForm.getParentId());
-            if(org == null)
-                throw new ExamException(ExamException.ExamExceptionEnum.SERVER_ERROR);
-            if (!org.getOrgname().equals(orgForm.getParentName())){
-                Org parent = OrgForm.adapterParentOrg(orgForm);
-                orgService.addOrg(parent);
-                orgForm.setParentId(parent.getOrgid());
-            }
-            if (orgForm.getChildId() == null){
-                Org childOrg = OrgForm.adapterChildOrg(orgForm);
-                orgService.addOrg(childOrg);
-                return childOrg.getOrgid();
-            }else {
-                Org child = orgService.getOrg(orgForm.getChildId());
-                if(child == null)
-                    throw new ExamException(ExamException.ExamExceptionEnum.SERVER_ERROR);
-                if (!child.getOrgname().equals(orgForm.getChildName())){
-                    Org childOrg = OrgForm.adapterChildOrg(orgForm);
-                    orgService.addOrg(childOrg);
-                    return childOrg.getOrgid();
-                }
-                return orgForm.getChildId();
-            }
-        }else {
-            Org parent = OrgForm.adapterParentOrg(orgForm);
-            orgService.addOrg(parent);
-            orgForm.setParentId(parent.getOrgid());
-
-            Org childOrg = OrgForm.adapterChildOrg(orgForm);
-            orgService.addOrg(childOrg);
-            return childOrg.getOrgid();
-        }
     }
 
     @Override
@@ -156,23 +112,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user,OrgForm orgForm) {
-        user.setOrgid(dealOrg(orgForm));
+    public void update(User user) {
+        //user.setOrgid(dealOrg(orgForm));
         user.setUserid(UserContext.getUid());
         userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
-    public UserInfo getInfo() {
-        User user = this.getUser(UserContext.getUid());
-
-        OrgForm userOrg = orgService.getUserOrg(user.getOrgid());
-
-        try {
-            return UserInfo.adapterUserInfo(user, userOrg);
-        } catch (Exception e) {
-            throw new ExamException(ExamException.ExamExceptionEnum.SERVER_ERROR);
-        }
+    public User getInfo() {
+        return this.getUser(UserContext.getUid());
     }
 
     @Override
@@ -191,7 +139,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserInfo> batchGetUserInfo(List<Courstudent> classStudents) {
+    public List<User> batchGetUserInfo(List<Courstudent> classStudents) {
         List<Integer> ids = classStudents
                 .stream()
                 .map(courstudent -> courstudent.getUserid())
@@ -199,21 +147,6 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userMapper.selectByIds(ids);
 
-        List<Integer> orgids = users.stream()
-                .map(User::getOrgid)
-                .collect(Collectors.toList());
-
-        List<OrgForm> orgForms = orgService.batchgetOrg(orgids);
-        List<UserInfo> userInfos = new ArrayList<>();
-        for (int i=0;i<users.size();i++){
-            try {
-                UserInfo userInfo = UserInfo.adapterUserInfo(users.get(i), orgForms.get(i));
-                userInfo.setComment(classStudents.get(i).getComment());
-                userInfos.add(userInfo);
-            } catch (Exception e) {
-                throw new ExamException(ExamException.ExamExceptionEnum.SERVER_ERROR);
-            }
-        }
-        return userInfos;
+        return users;
     }
 }

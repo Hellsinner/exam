@@ -30,6 +30,9 @@
     where AnswerID = #{answerid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    <selectKey resultType="int" order="AFTER" keyProperty="answerid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into quesanswer (AnswerID, TaskAnswerId, TaskQuesId, 
       Score, UsedTime, Answer
       )
@@ -38,6 +41,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
+    <selectKey resultType="int" order="AFTER" keyProperty="answerid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into quesanswer
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="answerid != null">

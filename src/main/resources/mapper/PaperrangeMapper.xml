@@ -21,12 +21,18 @@
     where PaperRangeID = #{paperrangeid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    <selectKey resultType="int" order="AFTER" keyProperty="paperrangeid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into paperrange (PaperRangeID, TaskID, UnitID, 
       Points)
     values (#{paperrangeid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{unitid,jdbcType=INTEGER}, 
       #{points,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Paperrange">
+    <selectKey resultType="int" order="AFTER" keyProperty="paperrangeid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into paperrange
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="paperrangeid != null">

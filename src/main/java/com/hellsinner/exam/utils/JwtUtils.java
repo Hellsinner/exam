@@ -98,7 +98,7 @@ public class JwtUtils {
         // 生成时间:当前
         payload.put("iat", date.getTime());
         // 过期时间10分钟(单位毫秒)
-        //payload.put("ext", date.getTime() + 1000*60*10);
+        payload.put("ext", date.getTime() + 1000*60*60*12*7);
         return JwtUtils.createToken(payload);
     }
 }

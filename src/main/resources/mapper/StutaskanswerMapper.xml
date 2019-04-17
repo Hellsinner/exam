@@ -23,6 +23,9 @@
     where TaskAnswerID = #{taskanswerid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    <selectKey resultType="int" order="AFTER" keyProperty="taskanswerid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into stutaskanswer (TaskAnswerID, UserID, ClassTaskID, 
       SubmitTime, Status, TotalScore
       )
@@ -31,6 +34,9 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Stutaskanswer">
+    <selectKey resultType="int" order="AFTER" keyProperty="taskanswerid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into stutaskanswer
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="taskanswerid != null">

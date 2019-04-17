@@ -25,6 +25,9 @@
     where TestCaseID = #{testcaseid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    <selectKey resultType="int" order="AFTER" keyProperty="testcaseid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into testcase (TestCaseID, QuesID, CaseIndex, 
       CaseInputfilePath, CaseOutputfilePath, 
       CaseTermiInput1, CaseTermiOutput)
@@ -33,6 +36,9 @@
       #{casetermiinput1,jdbcType=VARCHAR}, #{casetermioutput,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Testcase">
+    <selectKey resultType="int" order="AFTER" keyProperty="testcaseid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into testcase
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="testcaseid != null">

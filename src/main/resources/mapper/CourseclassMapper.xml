@@ -49,6 +49,9 @@
       #{courclasssize,jdbcType=INTEGER}, #{courclassdescription,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courseclass">
+    <selectKey resultType="int" order="AFTER" keyProperty="courclassid">
+      select LAST_INSERT_ID()
+    </selectKey>
     insert into courseclass
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="courclassid != null">

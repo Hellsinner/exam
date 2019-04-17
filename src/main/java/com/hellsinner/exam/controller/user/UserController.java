@@ -9,10 +9,7 @@ import com.hellsinner.exam.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -36,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/user/login")
-    public Result login(@Validated(User.Login.class) LoginUser loginUser, BindingResult result){
+    public Result login(@RequestBody @Validated(User.Login.class) LoginUser loginUser, BindingResult result){
         if (result.hasErrors()){
             return Result.failed(ExamException.ExamExceptionEnum.LOGIN_PARAMS_Insufficient);
         }
@@ -45,26 +42,25 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public Result register(@Validated(User.Register.class) LoginUser loginUser,
-                           @Valid OrgForm orgForm, BindingResult result){
+    public Result register(@RequestBody @Validated(User.Register.class) LoginUser loginUser, BindingResult result){
         if (result.hasErrors()){
             return Result.failed(ExamException.ExamExceptionEnum.REGISTER_PARAMS_Insufficient);
         }
-        userService.register(loginUser,orgForm);
+        userService.register(loginUser);
         return Result.ok();
     }
 
     @GetMapping("/user/info")
     @Authorize
     public Result info() {
-        UserInfo userInfo = userService.getInfo();
+        User userInfo = userService.getInfo();
         return Result.ok(userInfo);
     }
 
     @PostMapping("/user/update/info")
     @Authorize
-    public Result updateInfo(@Valid User user,@Valid OrgForm orgForm){
-        userService.update(user,orgForm);
+    public Result updateInfo(@Valid User user){
+        userService.update(user);
         return Result.ok();
     }
 

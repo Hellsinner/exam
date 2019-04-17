@@ -1,16 +1,17 @@
 package com.hellsinner.exam;
 
-import com.hellsinner.exam.component.UserContext;
-import com.hellsinner.exam.dao.UserMapper;
-import com.hellsinner.exam.model.annocations.Authorize;
-import com.hellsinner.exam.model.dao.User;
+import org.mybatis.generator.api.MyBatisGenerator;
+import org.mybatis.generator.config.Configuration;
+import org.mybatis.generator.config.xml.ConfigurationParser;
+import org.mybatis.generator.internal.DefaultShellCallback;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -18,34 +19,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ExamApplication {
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @GetMapping("/index0/{id}")
-    public User index(@PathVariable int id){
-        return userMapper.selectByPrimaryKey(id);
-    }
-
-    @GetMapping("/index1")
-    @Authorize
-    public User index1(){
-        return userMapper.selectByPrimaryKey(UserContext.getUid());
-    }
-
-    @GetMapping("/index2/{id}")
-    @Authorize(value = 0)
-    public User index2(@PathVariable int id){
-        return userMapper.selectByPrimaryKey(id);
-    }
-
-    @GetMapping("/index3/{id}")
-    @Authorize(value = 1)
-    public User index3(@PathVariable int id){
-        return userMapper.selectByPrimaryKey(id);
-    }
-
     public static void main(String[] args) {
         //System.out.println(DigestUtils.md5Hex("qwertyuiopasdfghjklzxcvbnm"+"1234567"));
         SpringApplication.run(ExamApplication.class, args);
+//        try {
+//            generator();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public static void generator() throws Exception{
+        List<String> warnings = new ArrayList<String>();
+        boolean overwrite = true;
+        //项目根路径不要有中文,我的有中文,所以使用绝对路径
+        File configFile = new File("D:\\IdeaProjects\\exam\\src\\main\\resources\\gener.xml");
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+        myBatisGenerator.generate(null);
     }
 }
