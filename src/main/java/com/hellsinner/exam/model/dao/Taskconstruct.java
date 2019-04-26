@@ -20,7 +20,7 @@ public class Taskconstruct {
      * 题目类型ID
      * @see com.hellsinner.exam.model.enums.QuestionType
      */
-    private Integer typeid;
+    private String typeid;
     /**
      * 试题数量
      */

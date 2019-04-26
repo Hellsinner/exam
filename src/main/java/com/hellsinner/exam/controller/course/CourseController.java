@@ -7,6 +7,7 @@ import com.hellsinner.exam.service.course.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,7 +24,7 @@ public class CourseController {
 
     @PostMapping("/course/add")
     @Authorize(value = 1)
-    public Result add(Course course){
+    public Result add(@RequestBody Course course){
         courseService.add(course);
         return Result.ok();
     }

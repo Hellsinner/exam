@@ -24,11 +24,23 @@
     <selectKey resultType="int" order="AFTER" keyProperty="paperrangeid">
       select LAST_INSERT_ID()
     </selectKey>
-    insert into paperrange (PaperRangeID, TaskID, UnitID, 
+    insert into paperrange (PaperRangeID, TaskID, UnitID,
       Points)
     values (#{paperrangeid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{unitid,jdbcType=INTEGER}, 
       #{points,jdbcType=INTEGER})
   </insert>
+  <insert id="batchInsert">
+    insert into paperrange (TaskID, UnitID)
+    values
+    <foreach collection="ids" item="id" index="index" separator=",">
+      (#{tid,jdbcType=INTEGER}, #{id,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <select id="selectByTid" resultType="com.hellsinner.exam.model.web.PaperrangeInfo">
+      select a.UnitName unitname,b.* from knowledgeunit a,paperrange b
+      where a.UnitID = b.UnitID
+      and b.TaskID = #{tid,jdbcType=INTEGER}
+  </select>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Paperrange">
     <selectKey resultType="int" order="AFTER" keyProperty="paperrangeid">
       select LAST_INSERT_ID()

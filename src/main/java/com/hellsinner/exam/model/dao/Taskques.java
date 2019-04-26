@@ -19,7 +19,7 @@ public class Taskques {
     /**
      * 问题id
      */
-    private Integer quesid;
+    private String quesid;
     /**
      * 分值
      */

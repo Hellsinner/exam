@@ -1,18 +1,16 @@
 package com.hellsinner.exam.controller.classtask;
 
 import com.hellsinner.exam.model.annocations.Authorize;
+import com.hellsinner.exam.model.dao.Courseclasstask;
 import com.hellsinner.exam.model.web.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ClassTaskController {
 
     @PostMapping("/classtask/create")
     @Authorize(value = 1)
-    public Result create(){
+    public Result create(@RequestBody Courseclasstask courseclasstask){
         return Result.ok();
     }
 

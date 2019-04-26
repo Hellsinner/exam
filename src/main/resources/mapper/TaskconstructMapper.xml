@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hellsinner.exam.model.dao.Taskconstruct">
     <id column="StrategyID" jdbcType="INTEGER" property="strategyid" />
     <result column="TaskID" jdbcType="INTEGER" property="taskid" />
-    <result column="TypeID" jdbcType="INTEGER" property="typeid" />
+    <result column="TypeID" jdbcType="VARCHAR" property="typeid" />
     <result column="QuesCount" jdbcType="INTEGER" property="quescount" />
     <result column="TypePoints" jdbcType="INTEGER" property="typepoints" />
     <result column="StrategyName" jdbcType="VARCHAR" property="strategyname" />
@@ -18,6 +18,13 @@
     from taskconstruct
     where StrategyID = #{strategyid,jdbcType=INTEGER}
   </select>
+
+  <select id="selectByTid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from taskconstruct
+    where TaskID = #{tid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from taskconstruct
     where StrategyID = #{strategyid,jdbcType=INTEGER}
@@ -29,7 +36,7 @@
     insert into taskconstruct (StrategyID, TaskID, TypeID, 
       QuesCount, TypePoints, StrategyName
       )
-    values (#{strategyid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, 
+    values (#{strategyid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{typeid,jdbcType=VARCHAR},
       #{quescount,jdbcType=INTEGER}, #{typepoints,jdbcType=INTEGER}, #{strategyname,jdbcType=VARCHAR}
       )
   </insert>
@@ -66,7 +73,7 @@
         #{taskid,jdbcType=INTEGER},
       </if>
       <if test="typeid != null">
-        #{typeid,jdbcType=INTEGER},
+        #{typeid,jdbcType=VARCHAR},
       </if>
       <if test="quescount != null">
         #{quescount,jdbcType=INTEGER},
@@ -86,7 +93,7 @@
         TaskID = #{taskid,jdbcType=INTEGER},
       </if>
       <if test="typeid != null">
-        TypeID = #{typeid,jdbcType=INTEGER},
+        TypeID = #{typeid,jdbcType=VARCHAR},
       </if>
       <if test="quescount != null">
         QuesCount = #{quescount,jdbcType=INTEGER},
@@ -103,7 +110,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Taskconstruct">
     update taskconstruct
     set TaskID = #{taskid,jdbcType=INTEGER},
-      TypeID = #{typeid,jdbcType=INTEGER},
+      TypeID = #{typeid,jdbcType=VARCHAR},
       QuesCount = #{quescount,jdbcType=INTEGER},
       TypePoints = #{typepoints,jdbcType=INTEGER},
       StrategyName = #{strategyname,jdbcType=VARCHAR}

@@ -27,6 +27,9 @@ public class ExamException extends RuntimeException{
         CREATE_CLASS_PARAMS_Insufficient(100011,"创建班级参数不足"),
         AGAIN_JOIN_CLASS(100012,"你已经加入该班级"),
         UPLOAD_PICTURE_FAILE(100013,"图片上传失败"),
+        NOT_A_PICTURE(100015,"你上传的并不是图片"),
+        NOT_HAVE_QUESTION(100014,"你并没有提交任何试题"),
+        NOT_HAVE_KNOWLEDGEUNIT(100016,"你并没有选择任何知识点"),
         SERVER_ERROR(500,"服务器出错啦");
 
         private int errCode;

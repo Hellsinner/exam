@@ -59,7 +59,7 @@ public class UserController {
 
     @PostMapping("/user/update/info")
     @Authorize
-    public Result updateInfo(@Valid User user){
+    public Result updateInfo(@RequestBody @Valid User user){
         userService.update(user);
         return Result.ok();
     }

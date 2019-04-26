@@ -1,11 +1,14 @@
 package com.hellsinner.exam.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 题目
@@ -13,58 +16,81 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Document(collection = "questions")
 public class Question implements Serializable {
     private static final long serialVersionUID = -3121911923027807845L;
-
-    private Integer quesid;
+    @Id
+    private String id;
     /**
      * 题目类型编号
-     * @see com.hellsinner.exam.model.enums.QuestionType
      */
-    private Integer typeid;
+    private String type;
     /**
      * 用户ID
      */
     private Integer userid;
     /**
+     * 课程ID
+     */
+    private Integer courseId;
+    /**
      * 知识点ID
      */
-    private Integer unitid;
-    /**
-     * 题目名称
-     */
-    private String name;
-    /**
-     * 选用次数
-     */
-    private Integer seletedtimes;
-    /**
-     * 内存上限(KB)
-     */
-    private Integer memlimit;
-    /**
-     * 时间上限(Sec)
-     */
-    private Integer timelimit;
-    /**
-     * 题目状态
-     */
-    private Integer status;
-    /**
-     * 题目内容
-     */
-    private String content;
-    /**
-     * 输入示例
-     */
-    private String inputexam;
-    /**
-     * 输出示例
-     */
-    private String outexam;
-    /**
-     * 题目答案
-     */
-    private String answer;
+    private Integer unitId;
+
+    private Qdata qdata;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class Qdata{
+        private String content;
+        private course course;
+        private Dataa data;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class course{
+        private String courseName;
+        private String unitName;
+        private Integer courseId;
+        private Integer unitId;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class Dataa{
+        private String Analysis;
+        private Option option;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class Option{
+        private String type;
+        private String answer;
+        private Integer count;
+        private String id;
+        private List<Odata> odata;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class Odata{
+        private Integer key;
+        private String action;
+        private String option;
+        private List<String> image;
+    }
 }

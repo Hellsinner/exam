@@ -110,6 +110,18 @@
     </set>
     where TaskID = #{taskid,jdbcType=INTEGER}
   </update>
+  <select id="selectByUid" resultType="com.hellsinner.exam.model.web.TaskInfo">
+    select a.*,b.CourName coursename
+    from task a,course b
+    where a.CourID=b.CourID
+    and a.UserID = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="selectInfo" resultType="com.hellsinner.exam.model.web.TaskInfo">
+    select a.*,b.CourName coursename
+    from task a,course b
+    where a.CourID=b.CourID
+    and a.TaskID = #{tid,jdbcType=INTEGER}
+  </select>
   <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Task">
     update task
     set TaskName = #{taskname,jdbcType=VARCHAR},
