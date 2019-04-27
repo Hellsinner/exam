@@ -3,9 +3,10 @@ package com.hellsinner.exam.dao;
 import com.hellsinner.exam.model.dao.Task;
 import com.hellsinner.exam.model.web.TaskInfo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface TaskMapper {
     int deleteByPrimaryKey(Integer taskid);
 
@@ -22,4 +23,6 @@ public interface TaskMapper {
     List<TaskInfo> selectByUid(@Param("uid") Integer uid);
 
     TaskInfo selectInfo(@Param("tid") Integer tid);
+
+    List<TaskInfo> selectListInfo(@Param("ids") List<Integer> ids);
 }

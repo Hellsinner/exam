@@ -1,7 +1,9 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Stutaskanswer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StutaskanswerMapper {
     int deleteByPrimaryKey(Integer taskanswerid);
 

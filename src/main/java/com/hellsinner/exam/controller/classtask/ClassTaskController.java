@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ClassTaskController {
-
     @PostMapping("/classtask/create")
     @Authorize(value = 1)
     public Result create(@RequestBody Courseclasstask courseclasstask){

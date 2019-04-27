@@ -1,4 +1,4 @@
-package com.hellsinner.exam.controller.question;
+package com.hellsinner.exam.model.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

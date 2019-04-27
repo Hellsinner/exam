@@ -2,9 +2,10 @@ package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Org;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface OrgMapper {
     int deleteByPrimaryKey(Integer orgid);
 

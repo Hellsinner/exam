@@ -2,7 +2,7 @@ package com.hellsinner.exam.service.question.impl;
 
 import com.hellsinner.exam.component.ExamException;
 import com.hellsinner.exam.component.UserContext;
-import com.hellsinner.exam.controller.question.TaskQuesSelect;
+import com.hellsinner.exam.model.web.TaskQuesSelect;
 import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.web.QuestionResult;
 import com.hellsinner.exam.model.web.QuestionSelect;

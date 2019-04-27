@@ -1,7 +1,9 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Quesanswer;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface QuesanswerMapper {
     int deleteByPrimaryKey(Integer answerid);
 

@@ -1,14 +1,16 @@
 package com.hellsinner.exam.controller.task;
 
 import com.hellsinner.exam.model.annocations.Authorize;
+import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.dao.Task;
-import com.hellsinner.exam.model.dao.Taskconstruct;
 import com.hellsinner.exam.model.dao.Taskques;
 import com.hellsinner.exam.model.web.Result;
+import com.hellsinner.exam.model.web.TaskAISelect;
 import com.hellsinner.exam.model.web.TaskListInfo;
 import com.hellsinner.exam.service.paperrange.PaperRangeService;
 import com.hellsinner.exam.service.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,9 @@ public class TaskController {
 
     @Autowired
     private PaperRangeService paperRangeService;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @PostMapping("/task/create")
     @Authorize(value = 1)
@@ -41,25 +46,18 @@ public class TaskController {
         return Result.ok(taskService.my());
     }
 
-    @PostMapping("/task/add/range/{tid}")
-    @Authorize(value = 1)
-    public Result addRange(@PathVariable Integer tid,@RequestBody List<Integer> ids){
-        paperRangeService.add(tid,ids);
-        return Result.ok();
-    }
-
-    @PostMapping("/task/add/construct/{tid}")
-    @Authorize(value = 1)
-    public Result addConstruct(@PathVariable Integer tid, @RequestBody Taskconstruct taskconstruct){
-        taskconstruct.setTaskid(tid);
-        //paperRangeService.add(paperrange);
-        return Result.ok();
-    }
-
-//    @PostMapping("/task/add/question/{tid}")
+//    @PostMapping("/task/add/range/{tid}")
 //    @Authorize(value = 1)
-//    public Result addQuestion(@PathVariable Integer tid,@RequestBody List<String> ids){
-//        taskService.linkQuestion(ids);
+//    public Result addRange(@PathVariable Integer tid,@RequestBody List<Integer> ids){
+//        paperRangeService.add(tid,ids);
+//        return Result.ok();
+//    }
+//
+//    @PostMapping("/task/add/construct/{tid}")
+//    @Authorize(value = 1)
+//    public Result addConstruct(@PathVariable Integer tid, @RequestBody Taskconstruct taskconstruct){
+//        taskconstruct.setTaskid(tid);
+//        //paperRangeService.add(paperrange);
 //        return Result.ok();
 //    }
 
@@ -67,6 +65,20 @@ public class TaskController {
     @Authorize(value = 1)
     public Result taskaddQuestion(@PathVariable Integer tid, @RequestBody List<Taskques> taskques){
         taskService.addQuestion(tid,taskques);
+        return Result.ok();
+    }
+
+    @PostMapping("/task/AI/add/question/{tid}")
+    @Authorize(value = 1)
+    public Result taskAiaddQuestion(@PathVariable Integer tid,@RequestBody TaskAISelect taskAISelect){
+        List<Question> questions = taskService.aiAddQuestion(tid,taskAISelect);
+        return Result.ok(questions);
+    }
+
+    @PostMapping("/task/auth/{tid}")
+    @Authorize(value = 1)
+    public Result authAdd(@PathVariable Integer tid,String email){
+        taskService.addAuth(tid,email);
         return Result.ok();
     }
 }

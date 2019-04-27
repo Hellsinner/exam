@@ -1,7 +1,9 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Testcase;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TestcaseMapper {
     int deleteByPrimaryKey(Integer testcaseid);
 

@@ -1,7 +1,9 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Image;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ImageMapper {
     int deleteByPrimaryKey(Integer imageid);
 

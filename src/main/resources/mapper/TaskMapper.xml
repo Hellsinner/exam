@@ -122,6 +122,15 @@
     where a.CourID=b.CourID
     and a.TaskID = #{tid,jdbcType=INTEGER}
   </select>
+  <select id="selectListInfo" resultType="com.hellsinner.exam.model.web.TaskInfo">
+    select a.*,b.CourName coursename
+    from task a,course b
+    where a.CourID=b.CourID
+    and a.TaskID in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
   <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Task">
     update task
     set TaskName = #{taskname,jdbcType=VARCHAR},

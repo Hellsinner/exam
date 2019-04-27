@@ -2,9 +2,10 @@ package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Courstudent;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface CourstudentMapper {
     int deleteByPrimaryKey(Integer selcourid);
 
