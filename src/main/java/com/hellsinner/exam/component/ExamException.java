@@ -42,6 +42,7 @@ public class ExamException extends RuntimeException{
         TASK_POINT_NOT_EQUAL(100026,"很抱歉,你提交的组卷条件无法达成,请注意你设置的分数"),
         QUESTION_NOT_HAVE_TYPE(100027,"没有这样的题目类型"),
         TASK_HAD_QUESTION(100028,"该试卷已经关联过试题了,不能重复关联"),
+        OPER_HAS_MISTAKE(100029,"操作错误"),
         SERVER_ERROR(500,"服务器出错啦");
 
         private int errCode;

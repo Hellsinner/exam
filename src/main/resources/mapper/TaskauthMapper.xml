@@ -26,6 +26,11 @@
     from taskauth
     where UserID=#{uid,jdbcType=INTEGER}
   </select>
+  <select id="selectList" resultType="int">
+    select UserID
+    from taskauth
+    where TaskID=#{tid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from taskauth
     where TaskAuthID = #{taskauthid,jdbcType=INTEGER}

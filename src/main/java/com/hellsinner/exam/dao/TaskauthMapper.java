@@ -23,4 +23,6 @@ public interface TaskauthMapper {
     Taskauth selectByTUid(@Param("tid") Integer tid,@Param("uid") Integer userid);
 
     List<Integer> selectByUid(@Param("uid") Integer uid);
+
+    List<Integer> selectList(@Param("tid") Integer tid);
 }

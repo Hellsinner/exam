@@ -20,6 +20,6 @@ public class TaskAISelect {
     public static class QuesSelect{
         private String type;
         private Integer count;
-        private Integer point;
+        private Double point;
     }
 }

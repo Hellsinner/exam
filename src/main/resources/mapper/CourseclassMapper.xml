@@ -16,10 +16,15 @@
     CourClassDescription
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+    select CourClassID,CourClassName,CourID
     from courseclass
     where CourClassID = #{courclassid,jdbcType=INTEGER}
+  </select>
+  <select id="selectMyClass" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from courseclass
+    where UserID = #{uid,jdbcType=INTEGER}
   </select>
   <update id="incrClassSize">
     update courseclass

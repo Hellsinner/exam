@@ -16,4 +16,6 @@ public interface CourseClassService {
     List<User> getCourseClassStudents(Integer id);
 
     void join(Integer id);
+
+    List<Courseclass> myCreatorClass();
 }

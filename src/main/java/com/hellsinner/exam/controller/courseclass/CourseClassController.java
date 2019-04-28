@@ -32,6 +32,12 @@ public class CourseClassController {
         return Result.ok(courseClassService.myCourseClass());
     }
 
+    @GetMapping("/courseClass/myClass")
+    @Authorize(value = 1)
+    public Result myCreatorClass(){
+        return Result.ok(courseClassService.myCreatorClass());
+    }
+
     @PostMapping("/courseClass/join/{id}")
     @Authorize
     public Result joinCourseClass(@PathVariable Integer id){

@@ -28,4 +28,12 @@ public class Taskques {
      * 补充说明
      */
     private String description;
+
+    public static Taskques adapt(String quesid,Integer tid,Double point){
+        Taskques taskques = new Taskques();
+        taskques.setTaskid(tid);
+        taskques.setQuesid(quesid);
+        taskques.setPoint(point);
+        return taskques;
+    }
 }

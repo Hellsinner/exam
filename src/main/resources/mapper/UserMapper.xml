@@ -31,6 +31,14 @@
       #{id,jdbcType=INTEGER}
     </foreach>
   </select>
+  <select id="selectAuthByIds" resultMap="BaseResultMap">
+    select UserID, UserType, Name, Email
+    from user
+    where UserID in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

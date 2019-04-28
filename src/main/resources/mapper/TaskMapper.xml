@@ -116,7 +116,7 @@
     where a.CourID=b.CourID
     and a.UserID = #{uid,jdbcType=INTEGER}
   </select>
-  <select id="selectByCid" resultMap="BaseResultMap">
+  <select id="selectByCid" resultType="com.hellsinner.exam.model.web.TaskInfo">
     select
     <include refid="Base_Column_List" />
     from task

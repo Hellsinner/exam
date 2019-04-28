@@ -9,6 +9,7 @@ import com.hellsinner.exam.model.web.*;
 import com.hellsinner.exam.service.task.TaskService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -142,7 +143,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Question> aiAddQuestion(Integer tid, TaskAISelect taskAISelect) {
+    public void aiAddQuestion(Integer tid, TaskAISelect taskAISelect) {
         Task task = taskMapper.selectByPrimaryKey(tid);
         if (!task.getUserid().equals(UserContext.getUid())){
             throw new ExamException(ExamException.ExamExceptionEnum.AUTH_NOT_ENOUGH);
@@ -157,16 +158,16 @@ public class TaskServiceImpl implements TaskService {
             throw new ExamException(ExamException.ExamExceptionEnum.TASK_HAD_QUESTION);
         }
 
-        int sum = taskAISelect.getConstruct()
+        double sum = taskAISelect.getConstruct()
                 .stream()
-                .mapToInt(quesTypeMaxCount ->
+                .mapToDouble(quesTypeMaxCount ->
                         quesTypeMaxCount.getCount() * quesTypeMaxCount.getPoint())
                 .sum();
-        if (task.getTaskscore() != sum){
+        if (task.getTaskscore().doubleValue() != sum){
             throw new ExamException(ExamException.ExamExceptionEnum.TASK_POINT_NOT_EQUAL);
         }
         MatchOperation matchunitids = Aggregation.match(Criteria.where("unitId").in(taskAISelect.getUnitids()));
-        List<Question> questions = Lists.newArrayList();
+        List<Taskques> questions = Lists.newArrayList();
         for (TaskAISelect.QuesSelect quesSelect : taskAISelect.getConstruct()){
             Integer count = quesSelect.getCount();
             if (count == null || count == 0){
@@ -186,20 +187,29 @@ public class TaskServiceImpl implements TaskService {
             if (mappedResults.size()<quesSelect.getCount()){
                 throw new ExamException(ExamException.ExamExceptionEnum.AI_QUESTION_NOT_ENOUTH);
             }
-            questions.addAll(mappedResults);
+            for (Question question : mappedResults){
+                Taskques adapt = Taskques.adapt(question.getId(), tid, quesSelect.getPoint().doubleValue());
+                questions.add(adapt);
+            }
         }
-        return questions;
+        taskquesMapper.insertMany(questions);
     }
 
     @Override
-    public void addAuth(Integer tid, String email) {
+    public void addAuth(Integer tid, User email) {
         Task task = taskMapper.selectByPrimaryKey(tid);
-        if (!task.getTaskid().equals(UserContext.getUid())){
+        if (!task.getUserid().equals(UserContext.getUid())){
             throw new ExamException(ExamException.ExamExceptionEnum.AUTH_NOT_ENOUGH);
         }
-        User user = userMapper.selectByEmail(email);
+        if (email == null || StringUtils.isEmpty(email.getEmail())){
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
+        }
+        User user = userMapper.selectByEmail(email.getEmail());
         if (user==null){
             throw new ExamException(ExamException.ExamExceptionEnum.NOT_FOUND_USER);
+        }
+        if (user.getUserid().equals(task.getUserid())) {
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
         }
         Taskauth byTUid = taskauthMapper.selectByTUid(tid, user.getUserid());
         if (byTUid != null){
@@ -212,7 +222,45 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getByCid(Integer cid) {
-        return taskMapper.selectByCid(cid);
+    public List<TaskInfo> getByCid(Integer cid) {
+        List<TaskInfo> taskInfos = taskMapper.selectByCid(cid);
+        List<TaskInfo> my = this.my();
+        taskInfos.addAll(my);
+        return taskInfos;
+    }
+
+    @Override
+    public List<User> authList(Integer tid) {
+        Task task = taskMapper.selectByPrimaryKey(tid);
+        List<Integer> uids = taskauthMapper.selectList(tid);
+        Integer uid = UserContext.getUid();
+        if (!uid.equals(task.getUserid()) && !uids.contains(uid)){
+            throw new ExamException(ExamException.ExamExceptionEnum.AUTH_CLASS_TASK_NOT_ENOUGH);
+        }
+        if (CollectionUtils.isEmpty(uids)){
+            return userMapper.selectAuthByIds(Lists.newArrayList(uid));
+        }
+        List<User> users = userMapper.selectAuthByIds(uids);
+        users.addAll(0,userMapper.selectAuthByIds(Lists.newArrayList(uid)));
+        return users;
+    }
+
+    @Override
+    public void delAuth(Integer tid, User user) {
+        Task task = taskMapper.selectByPrimaryKey(tid);
+        if (!task.getUserid().equals(UserContext.getUid())){
+            throw new ExamException(ExamException.ExamExceptionEnum.AUTH_NOT_ENOUGH);
+        }
+        if (user == null || user.getUserid() == null){
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
+        }
+        if (task.getUserid().equals(user.getUserid())) {
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
+        }
+        Taskauth taskauth = taskauthMapper.selectByTUid(tid, user.getUserid());
+        if(task == null){
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
+        }
+        taskauthMapper.deleteByPrimaryKey(taskauth.getTaskauthid());
     }
 }

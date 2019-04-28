@@ -22,4 +22,6 @@ public interface CourseclassMapper {
     List<Courseclass> selectByUid(@Param("uid") Integer uid);
 
     void incrClassSize(@Param("id") Integer id);
+
+    List<Courseclass> selectMyClass(@Param("uid") Integer uid);
 }

@@ -103,4 +103,12 @@ public class CourseClassServiceImpl implements CourseClassService {
         courseclassMapper.incrClassSize(id);
         courstudentService.insert(courstudent);
     }
+
+    @Override
+    public List<Courseclass> myCreatorClass() {
+        Integer uid = UserContext.getUid();
+
+        List<Courseclass> courseclasses = courseclassMapper.selectMyClass(uid);
+        return courseclasses;
+    }
 }

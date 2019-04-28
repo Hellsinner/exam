@@ -1,9 +1,9 @@
 package com.hellsinner.exam.controller.task;
 
 import com.hellsinner.exam.model.annocations.Authorize;
-import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.dao.Task;
 import com.hellsinner.exam.model.dao.Taskques;
+import com.hellsinner.exam.model.dao.User;
 import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.model.web.TaskAISelect;
 import com.hellsinner.exam.model.web.TaskListInfo;
@@ -63,14 +63,28 @@ public class TaskController {
     @PostMapping("/task/AI/add/question/{tid}")
     @Authorize(value = 1)
     public Result taskAiaddQuestion(@PathVariable Integer tid,@RequestBody TaskAISelect taskAISelect){
-        List<Question> questions = taskService.aiAddQuestion(tid,taskAISelect);
-        return Result.ok(questions);
+        taskService.aiAddQuestion(tid,taskAISelect);
+        return Result.ok();
     }
 
     @PostMapping("/task/auth/{tid}")
     @Authorize(value = 1)
-    public Result authAdd(@PathVariable Integer tid,String email){
-        taskService.addAuth(tid,email);
+    public Result authAdd(@PathVariable Integer tid,@RequestBody User user){
+        taskService.addAuth(tid,user);
+        return Result.ok();
+    }
+
+    @GetMapping("/task/auth/list/{tid}")
+    @Authorize(value = 1)
+    public Result authList(@PathVariable Integer tid){
+        List<User> users = taskService.authList(tid);
+        return Result.ok(users);
+    }
+
+    @PostMapping("/task/auth/del/{tid}")
+    @Authorize(value = 1)
+    public Result delAuth(@PathVariable Integer tid,@RequestBody User user){
+        taskService.delAuth(tid,user);
         return Result.ok();
     }
 
