@@ -36,6 +36,12 @@ public class ExamException extends RuntimeException{
         AI_QUESTION_NOT_ENOUTH(100020,"很抱歉,你提交的组卷条件无法达成,请前往题库增加满足你条件的题目"),
         AI_QUESTION_TYPE_COUNT_GT_MAX(100021,"单一类型题目数量过大"),
         NOT_HAVE_TASK(100022,"没有找到该试卷"),
+        AUTH_CLASS_TASK_NOT_ENOUGH(100023,"你无权操作"),
+        CLASS_TASK_TIME_ERROR(100024,"考试结束时间大于开始时间"),
+        CLASS_TASK_NOT_HAVE_QUESTION(100025,"考试任务并没有关联题目,请前往关联题目"),
+        TASK_POINT_NOT_EQUAL(100026,"很抱歉,你提交的组卷条件无法达成,请注意你设置的分数"),
+        QUESTION_NOT_HAVE_TYPE(100027,"没有这样的题目类型"),
+        TASK_HAD_QUESTION(100028,"该试卷已经关联过试题了,不能重复关联"),
         SERVER_ERROR(500,"服务器出错啦");
 
         private int errCode;

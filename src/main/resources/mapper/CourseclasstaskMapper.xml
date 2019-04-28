@@ -19,6 +19,12 @@
     from courseclasstask
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
   </select>
+  <select id="selectByClassid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from courseclasstask
+    where CourClassID = #{classid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from courseclasstask
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}

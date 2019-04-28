@@ -21,4 +21,6 @@ public interface TaskService {
     List<Question> aiAddQuestion(Integer tid, TaskAISelect taskAISelect);
 
     void addAuth(Integer tid, String email);
+
+    List<Task> getByCid(Integer cid);
 }

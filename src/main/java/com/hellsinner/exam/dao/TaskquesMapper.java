@@ -24,5 +24,7 @@ public interface TaskquesMapper {
     @MapKey("quesid")
     Map<String,Taskques> selectByTid(@Param("tid") Integer tid);
 
+    Integer selectCountByTid(@Param("tid") Integer tid);
+
     void insertMany(@Param("quess") List<Taskques> taskques);
 }

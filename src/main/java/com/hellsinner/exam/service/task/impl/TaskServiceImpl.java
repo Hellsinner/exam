@@ -126,8 +126,18 @@ public class TaskServiceImpl implements TaskService {
         if (CollectionUtils.isEmpty(taskques)){
             throw new ExamException(ExamException.ExamExceptionEnum.NOT_HAVE_QUESTION);
         }
-
-        taskques.stream().forEach(ques -> ques.setTaskid(tid));
+        Integer count = taskquesMapper.selectCountByTid(tid);
+        if (count != 0){
+            throw new ExamException(ExamException.ExamExceptionEnum.TASK_HAD_QUESTION);
+        }
+        double sum = taskques.stream()
+                .mapToDouble(Taskques::getPoint)
+                .sum();
+        if (sum != task.getTaskscore().doubleValue()){
+            throw new ExamException(ExamException.ExamExceptionEnum.TASK_POINT_NOT_EQUAL);
+        }
+        taskques.stream()
+                .forEach(ques -> ques.setTaskid(tid));
         taskquesMapper.insertMany(taskques);
     }
 
@@ -140,6 +150,20 @@ public class TaskServiceImpl implements TaskService {
 
         if (CollectionUtils.isEmpty(taskAISelect.getUnitids()) || CollectionUtils.isEmpty(taskAISelect.getConstruct())){
             throw new ExamException(ExamException.ExamExceptionEnum.CONDITION_NOT_ENOUGH);
+        }
+
+        Integer quesCount = taskquesMapper.selectCountByTid(tid);
+        if (quesCount != 0){
+            throw new ExamException(ExamException.ExamExceptionEnum.TASK_HAD_QUESTION);
+        }
+
+        int sum = taskAISelect.getConstruct()
+                .stream()
+                .mapToInt(quesTypeMaxCount ->
+                        quesTypeMaxCount.getCount() * quesTypeMaxCount.getPoint())
+                .sum();
+        if (task.getTaskscore() != sum){
+            throw new ExamException(ExamException.ExamExceptionEnum.TASK_POINT_NOT_EQUAL);
         }
         MatchOperation matchunitids = Aggregation.match(Criteria.where("unitId").in(taskAISelect.getUnitids()));
         List<Question> questions = Lists.newArrayList();
@@ -185,5 +209,10 @@ public class TaskServiceImpl implements TaskService {
         taskauth.setTaskid(tid);
         taskauth.setUserid(user.getUserid());
         taskauthMapper.insert(taskauth);
+    }
+
+    @Override
+    public List<Task> getByCid(Integer cid) {
+        return taskMapper.selectByCid(cid);
     }
 }

@@ -1,5 +1,6 @@
 package com.hellsinner.exam.service.question;
 
+import com.hellsinner.exam.model.dao.Taskques;
 import com.hellsinner.exam.model.web.TaskQuesSelect;
 import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.web.QuestionResult;
@@ -13,4 +14,6 @@ public interface QuestionService {
     List<Question> select(QuestionSelect questionSelect);
 
     QuestionResult taskselect(TaskQuesSelect taskQuesSelect);
+
+    List<Question> questions(List<Taskques> ids);
 }

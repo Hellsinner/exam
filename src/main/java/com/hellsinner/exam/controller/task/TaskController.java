@@ -7,10 +7,8 @@ import com.hellsinner.exam.model.dao.Taskques;
 import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.model.web.TaskAISelect;
 import com.hellsinner.exam.model.web.TaskListInfo;
-import com.hellsinner.exam.service.paperrange.PaperRangeService;
 import com.hellsinner.exam.service.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +18,6 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
-
-    @Autowired
-    private PaperRangeService paperRangeService;
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
 
     @PostMapping("/task/create")
     @Authorize(value = 1)
@@ -80,5 +72,11 @@ public class TaskController {
     public Result authAdd(@PathVariable Integer tid,String email){
         taskService.addAuth(tid,email);
         return Result.ok();
+    }
+
+    @GetMapping("/task/select/{cid}")
+    @Authorize(value = 1)
+    public Result select(@PathVariable Integer cid){
+        return Result.ok(taskService.getByCid(cid));
     }
 }

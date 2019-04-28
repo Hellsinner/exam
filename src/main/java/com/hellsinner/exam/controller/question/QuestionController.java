@@ -3,15 +3,13 @@ package com.hellsinner.exam.controller.question;
 import com.hellsinner.exam.component.ExamException;
 import com.hellsinner.exam.model.annocations.Authorize;
 import com.hellsinner.exam.model.dao.Question;
+import com.hellsinner.exam.model.dao.Taskques;
 import com.hellsinner.exam.model.web.QuestionSelect;
 import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.model.web.TaskQuesSelect;
 import com.hellsinner.exam.service.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Part;
 import java.io.IOException;
@@ -58,5 +56,11 @@ public class QuestionController {
     @Authorize(value = 1)
     public Result taskquesselect(@RequestBody TaskQuesSelect taskQuesSelect){
         return Result.ok(questionService.taskselect(taskQuesSelect));
+    }
+
+    @PostMapping("/questions/info")
+    @Authorize(value = 1)
+    public Result questions(@RequestBody List<Taskques> ids){
+        return Result.ok(questionService.questions(ids));
     }
 }

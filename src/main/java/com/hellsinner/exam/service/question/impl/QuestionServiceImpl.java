@@ -1,7 +1,10 @@
 package com.hellsinner.exam.service.question.impl;
 
+import com.google.common.collect.Lists;
 import com.hellsinner.exam.component.ExamException;
 import com.hellsinner.exam.component.UserContext;
+import com.hellsinner.exam.model.dao.Taskques;
+import com.hellsinner.exam.model.enums.QuestionType;
 import com.hellsinner.exam.model.web.TaskQuesSelect;
 import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.web.QuestionResult;
@@ -10,12 +13,14 @@ import com.hellsinner.exam.service.question.QuestionService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -30,7 +35,14 @@ public class QuestionServiceImpl implements QuestionService {
         Integer uid = UserContext.getUid();
         questions
                 .stream()
-                .forEach(question -> question.setUserid(uid));
+                .forEach(question -> {
+                    int type = QuestionType.getType(question.getType());
+                    if (type == 0){
+                        throw new ExamException(ExamException.ExamExceptionEnum.QUESTION_NOT_HAVE_TYPE);
+                    }
+                    question.setTypenum(type);
+                    question.setUserid(uid);
+                });
         mongoTemplate.insert(questions,Question.class);
     }
 
@@ -69,5 +81,17 @@ public class QuestionServiceImpl implements QuestionService {
         result.setCount(count);
         result.setQuestions(questions);
         return result;
+    }
+
+    @Override
+    public List<Question> questions(List<Taskques> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return Lists.newArrayList();
+        }
+        List<String> strings = ids.stream().map(Taskques::getQuesid).collect(Collectors.toList());
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").in(strings));
+        query.with(new Sort(Sort.Direction.ASC,"typenum"));
+        return mongoTemplate.find(query,Question.class);
     }
 }

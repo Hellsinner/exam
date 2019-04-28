@@ -13,6 +13,7 @@
   </sql>
   <insert id="insertMany">
     insert into taskques (TaskID, QuesID,Point)
+    values
     <foreach collection="quess" item="ques" index="index" separator=",">
       (#{ques.taskid,jdbcType=INTEGER}, #{ques.quesid,jdbcType=VARCHAR},#{ques.point,jdbcType=DOUBLE})
     </foreach>
@@ -26,6 +27,11 @@
   <select id="selectByTid" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    from taskques
+    where TaskID = #{tid,jdbcType=INTEGER}
+  </select>
+  <select id="selectCountByTid" resultType="int">
+    select count(*)
     from taskques
     where TaskID = #{tid,jdbcType=INTEGER}
   </select>

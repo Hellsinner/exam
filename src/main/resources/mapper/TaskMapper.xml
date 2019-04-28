@@ -116,6 +116,12 @@
     where a.CourID=b.CourID
     and a.UserID = #{uid,jdbcType=INTEGER}
   </select>
+  <select id="selectByCid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from task
+    where CourID = #{cid,jdbcType=INTEGER} and Status = 1
+  </select>
   <select id="selectInfo" resultType="com.hellsinner.exam.model.web.TaskInfo">
     select a.*,b.CourName coursename
     from task a,course b

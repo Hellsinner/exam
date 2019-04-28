@@ -23,9 +23,13 @@ public class Question implements Serializable {
     @Id
     private String id;
     /**
-     * 题目类型编号
+     * 题目类型
      */
     private String type;
+    /**
+     * 题目类型编号
+     */
+    private int typenum;
     /**
      * 用户ID
      */

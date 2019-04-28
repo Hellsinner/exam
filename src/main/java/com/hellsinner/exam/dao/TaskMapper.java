@@ -25,4 +25,6 @@ public interface TaskMapper {
     TaskInfo selectInfo(@Param("tid") Integer tid);
 
     List<TaskInfo> selectListInfo(@Param("ids") List<Integer> ids);
+
+    List<Task> selectByCid(@Param("id") Integer cid);
 }
