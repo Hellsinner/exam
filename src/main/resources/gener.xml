@@ -34,7 +34,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 指定数据库表 -->
-        <table tableName="taskauth" enableCountByExample="false"
+        <table tableName="courseclasstask" enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

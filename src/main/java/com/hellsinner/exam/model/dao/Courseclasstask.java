@@ -1,5 +1,6 @@
 package com.hellsinner.exam.model.dao;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,10 +30,12 @@ public class Courseclasstask {
     /**
      * 课程班任务开始时间
      */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date starttime;
     /**
      * 课程班任务结束时间
      */
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm")
     private Date endtime;
     /**
      * 课程班状态

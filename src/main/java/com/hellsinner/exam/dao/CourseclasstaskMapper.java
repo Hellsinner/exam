@@ -1,6 +1,7 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Courseclasstask;
+import com.hellsinner.exam.model.web.CourseclasstaskInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ public interface CourseclasstaskMapper {
 
     Courseclasstask selectByPrimaryKey(Integer classtaskid);
 
-    List<Courseclasstask> selectByClassid(@Param("classid") Integer classid);
+    List<CourseclasstaskInfo> selectByClassid(@Param("classid") Integer classid);
 
     int updateByPrimaryKeySelective(Courseclasstask record);
 

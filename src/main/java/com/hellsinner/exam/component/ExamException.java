@@ -38,7 +38,7 @@ public class ExamException extends RuntimeException{
         NOT_HAVE_TASK(100022,"没有找到该试卷"),
         AUTH_CLASS_TASK_NOT_ENOUGH(100023,"你无权操作"),
         CLASS_TASK_TIME_ERROR(100024,"考试结束时间大于开始时间"),
-        CLASS_TASK_NOT_HAVE_QUESTION(100025,"考试任务并没有关联题目,请前往关联题目"),
+        CLASS_TASK_NOT_HAVE_QUESTION(100025,"请前往关联题目后通知学生考试"),
         TASK_POINT_NOT_EQUAL(100026,"很抱歉,你提交的组卷条件无法达成,请注意你设置的分数"),
         QUESTION_NOT_HAVE_TYPE(100027,"没有这样的题目类型"),
         TASK_HAD_QUESTION(100028,"该试卷已经关联过试题了,不能重复关联"),

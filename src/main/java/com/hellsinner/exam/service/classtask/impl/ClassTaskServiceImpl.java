@@ -8,11 +8,12 @@ import com.hellsinner.exam.dao.CourstudentMapper;
 import com.hellsinner.exam.dao.TaskquesMapper;
 import com.hellsinner.exam.model.dao.Courseclass;
 import com.hellsinner.exam.model.dao.Courseclasstask;
-import com.hellsinner.exam.model.dao.Courstudent;
+import com.hellsinner.exam.model.web.CourseclasstaskInfo;
 import com.hellsinner.exam.service.classtask.ClassTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -56,20 +57,35 @@ public class ClassTaskServiceImpl implements ClassTaskService {
         if (count == 0){
             throw new ExamException(ExamException.ExamExceptionEnum.CLASS_TASK_NOT_HAVE_QUESTION);
         }
+        if (courseclasstask.getStatus() == 1 || new Date().after(courseclasstask.getStarttime())) {
+            throw new ExamException(ExamException.ExamExceptionEnum.OPER_HAS_MISTAKE);
+        }
         courseclasstask.setStatus(1);
         courseclasstaskMapper.updateByPrimaryKey(courseclasstask);
     }
 
     @Override
-    public void list(Integer classid) {
-        Courstudent courstudent = courstudentMapper.selectByUidAndCid(classid, UserContext.getUid());
-        if (courstudent == null){
+    public List<CourseclasstaskInfo> list(Integer classid) {
+        Courseclass courseclass = courseclassMapper.selectByPrimaryKey(classid);
+        if (!courseclass.getUserid().equals(UserContext.getUid())){
             throw new ExamException(ExamException.ExamExceptionEnum.AUTH_CLASS_TASK_NOT_ENOUGH);
         }
-        List<Courseclasstask> courseclasstasks = courseclasstaskMapper.selectByClassid(classid);
+        List<CourseclasstaskInfo> courseclasstasks = courseclasstaskMapper.selectByClassid(classid);
 
-        for (Courseclasstask courseclasstask : courseclasstasks){
-
+        for (CourseclasstaskInfo courseclasstaskInfo : courseclasstasks){
+            Date now = new Date();
+            if (courseclasstaskInfo.getStatus() == 0
+                    && now.before(courseclasstaskInfo.getStarttime()) ){
+                courseclasstaskInfo.setIsnoticed(false);
+            }else {
+                courseclasstaskInfo.setIsnoticed(true);
+            }
         }
+        return courseclasstasks;
+    }
+
+    @Override
+    public List<CourseclasstaskInfo> myjoin(Integer classid) {
+        return null;
     }
 }

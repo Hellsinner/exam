@@ -6,8 +6,8 @@
     <result column="TaskID" jdbcType="INTEGER" property="taskid" />
     <result column="CourClassID" jdbcType="INTEGER" property="courclassid" />
     <result column="ClassTaskName" jdbcType="VARCHAR" property="classtaskname" />
-    <result column="StartTime" jdbcType="DATE" property="starttime" />
-    <result column="EndTime" jdbcType="DATE" property="endtime" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
     <result column="Status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -19,7 +19,7 @@
     from courseclasstask
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
   </select>
-  <select id="selectByClassid" resultMap="BaseResultMap">
+  <select id="selectByClassid" resultType="com.hellsinner.exam.model.web.CourseclasstaskInfo">
     select
     <include refid="Base_Column_List" />
     from courseclasstask
@@ -37,7 +37,7 @@
       ClassTaskName, StartTime, EndTime, 
       Status)
     values (#{classtaskid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{courclassid,jdbcType=INTEGER}, 
-      #{classtaskname,jdbcType=VARCHAR}, #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, 
+      #{classtaskname,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
@@ -82,10 +82,10 @@
         #{classtaskname,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null">
-        #{starttime,jdbcType=DATE},
+        #{starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="endtime != null">
-        #{endtime,jdbcType=DATE},
+        #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
@@ -105,10 +105,10 @@
         ClassTaskName = #{classtaskname,jdbcType=VARCHAR},
       </if>
       <if test="starttime != null">
-        StartTime = #{starttime,jdbcType=DATE},
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
       </if>
       <if test="endtime != null">
-        EndTime = #{endtime,jdbcType=DATE},
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         Status = #{status,jdbcType=INTEGER},
@@ -121,8 +121,8 @@
     set TaskID = #{taskid,jdbcType=INTEGER},
       CourClassID = #{courclassid,jdbcType=INTEGER},
       ClassTaskName = #{classtaskname,jdbcType=VARCHAR},
-      StartTime = #{starttime,jdbcType=DATE},
-      EndTime = #{endtime,jdbcType=DATE},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
       Status = #{status,jdbcType=INTEGER}
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
   </update>
