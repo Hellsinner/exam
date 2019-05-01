@@ -3,18 +3,20 @@ package com.hellsinner.exam.service.question.impl;
 import com.google.common.collect.Lists;
 import com.hellsinner.exam.component.ExamException;
 import com.hellsinner.exam.component.UserContext;
+import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.dao.Taskques;
 import com.hellsinner.exam.model.enums.QuestionType;
-import com.hellsinner.exam.model.web.TaskQuesSelect;
-import com.hellsinner.exam.model.dao.Question;
 import com.hellsinner.exam.model.web.QuestionResult;
 import com.hellsinner.exam.model.web.QuestionSelect;
+import com.hellsinner.exam.model.web.TaskQuesSelect;
 import com.hellsinner.exam.service.question.QuestionService;
+import com.mongodb.BasicDBObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -91,6 +93,21 @@ public class QuestionServiceImpl implements QuestionService {
         List<String> strings = ids.stream().map(Taskques::getQuesid).collect(Collectors.toList());
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").in(strings));
+        query.with(new Sort(Sort.Direction.ASC,"typenum"));
+        return mongoTemplate.find(query,Question.class);
+    }
+
+    @Override
+    public List<Question> excludeAnswer(List<String> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return Lists.newArrayList();
+        }
+        BasicDBObject dbObject = new BasicDBObject();
+        dbObject.put("_id",new BasicDBObject("$in",ids));
+        //指定返回的字段
+        BasicDBObject fieldsObject = new BasicDBObject();
+        fieldsObject.put("qdata.data.option.answer", false);
+        Query query = new BasicQuery(dbObject.toJson(), fieldsObject.toJson());
         query.with(new Sort(Sort.Direction.ASC,"typenum"));
         return mongoTemplate.find(query,Question.class);
     }

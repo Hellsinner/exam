@@ -24,7 +24,7 @@
     from taskques
     where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
   </select>
-  <select id="selectByTid" resultMap="BaseResultMap">
+  <select id="selectByTid" resultType="com.hellsinner.exam.model.web.ExamInfo">
     select
     <include refid="Base_Column_List" />
     from taskques

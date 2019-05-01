@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseclasstaskInfo extends Courseclasstask {
     private Boolean isnoticed;
+
+    private Boolean isexam;
 }

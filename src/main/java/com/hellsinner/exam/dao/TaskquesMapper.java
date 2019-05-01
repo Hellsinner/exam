@@ -1,6 +1,7 @@
 package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Taskques;
+import com.hellsinner.exam.model.web.ExamInfo;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,7 @@ public interface TaskquesMapper {
     int updateByPrimaryKey(Taskques record);
 
     @MapKey("quesid")
-    Map<String,Taskques> selectByTid(@Param("tid") Integer tid);
+    Map<String, ExamInfo> selectByTid(@Param("tid") Integer tid);
 
     Integer selectCountByTid(@Param("tid") Integer tid);
 

@@ -16,4 +16,6 @@ public interface QuestionService {
     QuestionResult taskselect(TaskQuesSelect taskQuesSelect);
 
     List<Question> questions(List<Taskques> ids);
+
+    List<Question> excludeAnswer(List<String> ids);
 }

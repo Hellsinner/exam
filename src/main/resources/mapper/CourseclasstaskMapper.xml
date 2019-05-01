@@ -25,6 +25,12 @@
     from courseclasstask
     where CourClassID = #{classid,jdbcType=INTEGER}
   </select>
+  <select id="selectStuClassid" resultType="com.hellsinner.exam.model.web.CourseclasstaskInfo">
+    select
+    <include refid="Base_Column_List" />
+    from courseclasstask
+    where CourClassID = #{classid,jdbcType=INTEGER} and Status = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from courseclasstask
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}

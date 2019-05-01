@@ -19,6 +19,8 @@ public interface CourseclasstaskMapper {
 
     List<CourseclasstaskInfo> selectByClassid(@Param("classid") Integer classid);
 
+    List<CourseclasstaskInfo> selectStuClassid(@Param("classid") Integer classid);
+
     int updateByPrimaryKeySelective(Courseclasstask record);
 
     int updateByPrimaryKey(Courseclasstask record);

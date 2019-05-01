@@ -2,7 +2,9 @@ package com.hellsinner.exam.controller.classtask;
 
 import com.hellsinner.exam.model.annocations.Authorize;
 import com.hellsinner.exam.model.dao.Courseclasstask;
+import com.hellsinner.exam.model.dao.Quesanswer;
 import com.hellsinner.exam.model.web.CourseclasstaskInfo;
+import com.hellsinner.exam.model.web.ExamInfo;
 import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.service.classtask.ClassTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +44,19 @@ public class ClassTaskController {
     public Result myjoin(@PathVariable Integer classid){
         List<CourseclasstaskInfo> list = classTaskService.myjoin(classid);
         return Result.ok(list);
+    }
+
+    @GetMapping("/classtask/start/{ctid}")
+    @Authorize(value = 0)
+    public Result start(@PathVariable Integer ctid){
+        List<ExamInfo> start = classTaskService.start(ctid);
+        return Result.ok(start);
+    }
+
+    @PostMapping("/classtask/submit/{ctid}")
+    @Authorize(value = 0)
+    public Result submit(@PathVariable Integer ctid, @RequestBody List<Quesanswer> quesanswers){
+        classTaskService.submit(ctid,quesanswers);
+        return Result.ok();
     }
 }
