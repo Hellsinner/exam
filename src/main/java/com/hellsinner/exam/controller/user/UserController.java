@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/exam")
 public class UserController {
 
     @Autowired
@@ -28,7 +29,6 @@ public class UserController {
     @GetMapping(value = "/kaptcha")
     public Result kaptcha(){
         Map<String, Object> kaptcha = userService.createKaptcha();
-        System.out.println(kaptcha);
         return Result.ok(kaptcha);
     }
 

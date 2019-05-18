@@ -12,4 +12,10 @@ public class CourseclasstaskInfo extends Courseclasstask {
     private Boolean isnoticed;
 
     private Boolean isexam;
+
+    private String courclassname;
+
+    private String courname;
+
+    private Boolean isallowview;
 }

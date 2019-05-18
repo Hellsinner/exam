@@ -22,4 +22,6 @@ public class QuestionInfo extends Question {
         return questionInfo;
     }
     private Double grade;
+
+    private String submitAnswer;
 }

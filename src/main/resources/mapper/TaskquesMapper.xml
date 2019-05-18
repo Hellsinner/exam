@@ -24,7 +24,16 @@
     from taskques
     where TaskQuesId = #{taskquesid,jdbcType=INTEGER}
   </select>
-  <select id="selectByTid" resultType="com.hellsinner.exam.model.web.ExamInfo">
+  <select id="selectByids" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from taskques
+    where TaskQuesId in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
+  <select id="selectByTid" resultType="com.hellsinner.exam.model.web.ExamQuesInfo">
     select
     <include refid="Base_Column_List" />
     from taskques

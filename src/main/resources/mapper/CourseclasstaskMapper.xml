@@ -20,108 +20,48 @@
     where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
   </select>
   <select id="selectByClassid" resultType="com.hellsinner.exam.model.web.CourseclasstaskInfo">
-    select
-    <include refid="Base_Column_List" />
-    from courseclasstask
-    where CourClassID = #{classid,jdbcType=INTEGER}
+    select a.CourName,b.CourClassName,c.*
+    from course a,courseclass b,courseclasstask c
+    where c.CourClassID in
+    <foreach collection="classids" item="classid" separator="," open="(" close=")">
+      #{classid,jdbcType=INTEGER}
+    </foreach>
+    and c.CourClassID = b.CourClassID and b.CourID = a.CourID
+  </select>
+  <select id="selectByClassTaskid" resultType="com.hellsinner.exam.model.web.CourseclasstaskInfo">
+    select a.CourName,b.CourClassName,c.*
+    from course a,courseclass b,courseclasstask c
+    where c.ClassTaskID = #{classtaskid,jdbcType=INTEGER}
+    and c.CourClassID = b.CourClassID and b.CourID = a.CourID
   </select>
   <select id="selectStuClassid" resultType="com.hellsinner.exam.model.web.CourseclasstaskInfo">
-    select
-    <include refid="Base_Column_List" />
-    from courseclasstask
-    where CourClassID = #{classid,jdbcType=INTEGER} and Status = 1
+    select a.CourName,b.CourClassName,c.*
+    from course a,courseclass b,courseclasstask c
+    where c.Status = 1 and c.CourClassID in
+    <foreach collection="classids" item="classid" separator="," open="(" close=")">
+      #{classid,jdbcType=INTEGER}
+    </foreach>
+    and c.CourClassID = b.CourClassID and b.CourID = a.CourID
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from courseclasstask
-    where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
-  </delete>
+  <select id="examine" resultType="com.hellsinner.exam.model.web.ExamineInfo">
+    select a.CourClassName,b.UserID,c.TotalScore,d.Name,c.Status
+    from courseclass a INNER JOIN courstudent b ON a.CourClassID = b.CourClassID
+    INNER JOIN user d ON b.UserID = d.UserID INNER JOIN stutaskanswer c ON b.UserID = c.UserID
+    where a.CourClassID = #{courclassid,jdbcType=INTEGER}
+  </select>
+
   <insert id="insert" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
     <selectKey resultType="int" order="AFTER" keyProperty="classtaskid">
       select LAST_INSERT_ID()
     </selectKey>
     insert into courseclasstask (ClassTaskID, TaskID, CourClassID, 
       ClassTaskName, StartTime, EndTime, 
-      Status)
+      Status )
     values (#{classtaskid,jdbcType=INTEGER}, #{taskid,jdbcType=INTEGER}, #{courclassid,jdbcType=INTEGER}, 
       #{classtaskname,jdbcType=VARCHAR}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
       #{status,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
-    <selectKey resultType="int" order="AFTER" keyProperty="classtaskid">
-      select LAST_INSERT_ID()
-    </selectKey>
-    insert into courseclasstask
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="classtaskid != null">
-        ClassTaskID,
-      </if>
-      <if test="taskid != null">
-        TaskID,
-      </if>
-      <if test="courclassid != null">
-        CourClassID,
-      </if>
-      <if test="classtaskname != null">
-        ClassTaskName,
-      </if>
-      <if test="starttime != null">
-        StartTime,
-      </if>
-      <if test="endtime != null">
-        EndTime,
-      </if>
-      <if test="status != null">
-        Status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="classtaskid != null">
-        #{classtaskid,jdbcType=INTEGER},
-      </if>
-      <if test="taskid != null">
-        #{taskid,jdbcType=INTEGER},
-      </if>
-      <if test="courclassid != null">
-        #{courclassid,jdbcType=INTEGER},
-      </if>
-      <if test="classtaskname != null">
-        #{classtaskname,jdbcType=VARCHAR},
-      </if>
-      <if test="starttime != null">
-        #{starttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
-    update courseclasstask
-    <set>
-      <if test="taskid != null">
-        TaskID = #{taskid,jdbcType=INTEGER},
-      </if>
-      <if test="courclassid != null">
-        CourClassID = #{courclassid,jdbcType=INTEGER},
-      </if>
-      <if test="classtaskname != null">
-        ClassTaskName = #{classtaskname,jdbcType=VARCHAR},
-      </if>
-      <if test="starttime != null">
-        StartTime = #{starttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endtime != null">
-        EndTime = #{endtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null">
-        Status = #{status,jdbcType=INTEGER},
-      </if>
-    </set>
-    where ClassTaskID = #{classtaskid,jdbcType=INTEGER}
-  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.hellsinner.exam.model.dao.Courseclasstask">
     update courseclasstask
     set TaskID = #{taskid,jdbcType=INTEGER},

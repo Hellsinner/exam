@@ -41,4 +41,6 @@ public class Courseclasstask {
      * 课程班状态
      */
     private Integer status;
+
+
 }

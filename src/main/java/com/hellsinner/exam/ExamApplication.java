@@ -1,5 +1,6 @@
 package com.hellsinner.exam;
 
+import org.joda.time.DateTime;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -21,6 +22,8 @@ public class ExamApplication {
 
     public static void main(String[] args) {
         //System.out.println(DigestUtils.md5Hex("qwertyuiopasdfghjklzxcvbnm"+"1234567"));
+        DateTime dateTime = DateTime.now().withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0);
+        System.out.println(dateTime);
         SpringApplication.run(ExamApplication.class, args);
 //        try {
 //            generator();

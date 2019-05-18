@@ -25,6 +25,30 @@
     from quesanswer
     where AnswerID = #{answerid,jdbcType=INTEGER}
   </select>
+  <select id="selectByids" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from quesanswer
+    where TaskQuesId in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id,jdbcType=INTEGER}
+    </foreach>
+  </select>
+  <update id="updateScore">
+    update quesanswer
+    set Score = #{qa.score,jdbcType=INTEGER}
+    where AnswerID = #{qa.answerid,jdbcType=DOUBLE}
+  </update>
+  <insert id="insertMany">
+    insert into quesanswer (TaskAnswerId, TaskQuesId,Answer,Score)
+    values
+    <foreach collection="list" item="answer" index="index" separator=",">
+      (#{id,jdbcType=INTEGER}, #{answer.taskquesid,jdbcType=INTEGER},
+      #{answer.answer,jdbcType=LONGVARCHAR},#{answer.score,jdbcType=DOUBLE})
+    </foreach>
+  </insert>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from quesanswer
     where AnswerID = #{answerid,jdbcType=INTEGER}
@@ -106,6 +130,20 @@
       </if>
     </set>
     where AnswerID = #{answerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateMany">
+    update quesanswer
+    Score =
+    <foreach collection="list" item="answer" index="index"
+             separator=" " open="case id" close="end">
+      when #{answer.taskanswerid,jdbcType=INTEGER} then
+      #{answer.score,jdbcType=DOUBLE}
+    </foreach>
+    where id in
+    <foreach collection="list" item="answer" index="index"
+             separator="," open="(" close=")">
+      #{answer.taskanswerid,jdbcType=INTEGER}
+    </foreach>
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hellsinner.exam.model.dao.Quesanswer">
     update quesanswer

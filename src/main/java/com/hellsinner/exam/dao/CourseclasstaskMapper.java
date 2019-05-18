@@ -2,6 +2,7 @@ package com.hellsinner.exam.dao;
 
 import com.hellsinner.exam.model.dao.Courseclasstask;
 import com.hellsinner.exam.model.web.CourseclasstaskInfo;
+import com.hellsinner.exam.model.web.ExamineInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -9,19 +10,17 @@ import java.util.List;
 
 @Repository
 public interface CourseclasstaskMapper {
-    int deleteByPrimaryKey(Integer classtaskid);
-
     int insert(Courseclasstask record);
-
-    int insertSelective(Courseclasstask record);
 
     Courseclasstask selectByPrimaryKey(Integer classtaskid);
 
-    List<CourseclasstaskInfo> selectByClassid(@Param("classid") Integer classid);
+    List<CourseclasstaskInfo> selectByClassid(@Param("classids") List<Integer> classids);
 
-    List<CourseclasstaskInfo> selectStuClassid(@Param("classid") Integer classid);
+    CourseclasstaskInfo selectByClassTaskid(@Param("classtaskid") Integer classtaskid);
 
-    int updateByPrimaryKeySelective(Courseclasstask record);
+    List<CourseclasstaskInfo> selectStuClassid(@Param("classids") List<Integer> classid);
 
     int updateByPrimaryKey(Courseclasstask record);
+
+    List<ExamineInfo> examine(@Param("courclassid") Integer courclassid);
 }

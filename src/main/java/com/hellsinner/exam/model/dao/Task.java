@@ -36,4 +36,10 @@ public class Task {
      * 任务状态
      */
     private Integer status;
+
+    /**
+     * 0 ：考试
+     * 1 ： 作业
+     */
+    private Integer type;
 }

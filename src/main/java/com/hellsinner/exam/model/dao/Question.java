@@ -45,6 +45,16 @@ public class Question implements Serializable {
 
     private Qdata qdata;
 
+    private String answer;
+
+    private Long submitTotal;
+
+    private String acRate;
+
+    private Boolean isAc;
+
+    private Integer pid;
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -71,7 +81,7 @@ public class Question implements Serializable {
     @AllArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
     static class Dataa{
-        private String Analysis;
+        private String analysis;
         private Option option;
     }
 

@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamInfo {
-    private List<ExamQuesInfo> quesInfos;
+public class QuestionView {
+    private QuestionInfo questionInfo;
 
-    private CourseclasstaskInfo courseclasstaskInfo;
+    private Double point;
 }

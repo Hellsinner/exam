@@ -89,8 +89,10 @@ public class CourseClassServiceImpl implements CourseClassService {
     }
 
     @Override
-    public void join(Integer id) {
-        Courstudent classStudent = courstudentService.getClassStudent(id,UserContext.getUid());
+    public void join(Integer classid) {
+        Courstudent classStudent = courstudentService
+                .getClassStudent(classid,UserContext.getUid());
+        //重复加入班级
         if (classStudent != null){
             throw new ExamException(ExamException.ExamExceptionEnum.AGAIN_JOIN_CLASS);
         }
@@ -98,9 +100,9 @@ public class CourseClassServiceImpl implements CourseClassService {
         User user = userService.getUser(UserContext.getUid());
         Courstudent courstudent = new Courstudent();
         courstudent.setUserid(user.getUserid());
-        courstudent.setCourclassid(id);
+        courstudent.setCourclassid(classid);
 
-        courseclassMapper.incrClassSize(id);
+        courseclassMapper.incrClassSize(classid);
         courstudentService.insert(courstudent);
     }
 

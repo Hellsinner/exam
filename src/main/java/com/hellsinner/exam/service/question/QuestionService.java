@@ -17,5 +17,7 @@ public interface QuestionService {
 
     List<Question> questions(List<Taskques> ids);
 
-    List<Question> excludeAnswer(List<String> ids);
+    List<Question> lists(List<String> ids);
+
+    List<Question> excludeAnswer(List<String> ids,int type);
 }

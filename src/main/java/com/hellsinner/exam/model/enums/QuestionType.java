@@ -29,6 +29,15 @@ public enum QuestionType {
         return type;
     }
 
+    public static QuestionType getQuesType(String name){
+        for (QuestionType questionType : QuestionType.values()){
+            if (questionType.name.equals(name)){
+                return questionType;
+            }
+        }
+        return null;
+    }
+
     QuestionType(int type, String name){
         this.type = type;
         this.name = name;

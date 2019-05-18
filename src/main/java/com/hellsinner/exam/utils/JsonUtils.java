@@ -1,7 +1,10 @@
 package com.hellsinner.exam.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 
 public class JsonUtils {
 
@@ -23,5 +26,12 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static List<String> jsonToList(String json) {
+
+        List<String> strings = JSON.parseArray(json, String.class);
+
+        return strings;
     }
 }

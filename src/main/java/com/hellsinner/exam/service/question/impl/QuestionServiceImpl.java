@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> select(QuestionSelect questionSelect) {
         Query query = new Query();
         if (questionSelect.getUnitid() != null){
-            query.addCriteria(Criteria.where("unitid").is(questionSelect.getUnitid()));
+            query.addCriteria(Criteria.where("unitId").is(questionSelect.getUnitid()));
         }
         if (questionSelect.isIsmyexms()){
             query.addCriteria(Criteria.where("userid").is(UserContext.getUid()));
@@ -67,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionResult taskselect(TaskQuesSelect taskQuesSelect) {
         Query query = new Query();
         if (CollectionUtils.isNotEmpty(taskQuesSelect.getUnitids())){
-            query.addCriteria(Criteria.where("unitid").in(taskQuesSelect.getUnitids()));
+            query.addCriteria(Criteria.where("unitId").in(taskQuesSelect.getUnitids()));
         }
 
         if (taskQuesSelect.isIsmyexms()){
@@ -91,14 +91,18 @@ public class QuestionServiceImpl implements QuestionService {
             return Lists.newArrayList();
         }
         List<String> strings = ids.stream().map(Taskques::getQuesid).collect(Collectors.toList());
+        return lists(strings);
+    }
+
+    public List<Question> lists(List<String> ids){
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").in(strings));
+        query.addCriteria(Criteria.where("_id").in(ids));
         query.with(new Sort(Sort.Direction.ASC,"typenum"));
         return mongoTemplate.find(query,Question.class);
     }
 
     @Override
-    public List<Question> excludeAnswer(List<String> ids) {
+    public List<Question> excludeAnswer(List<String> ids,int type) {
         if (CollectionUtils.isEmpty(ids)) {
             return Lists.newArrayList();
         }
@@ -106,7 +110,12 @@ public class QuestionServiceImpl implements QuestionService {
         dbObject.put("_id",new BasicDBObject("$in",ids));
         //指定返回的字段
         BasicDBObject fieldsObject = new BasicDBObject();
-        fieldsObject.put("qdata.data.option.answer", false);
+        if (type == 0){
+            fieldsObject.put("qdata.data.option.answer", false);
+            fieldsObject.put("qdata.data.Analysis", false);
+            fieldsObject.put("answer", false);
+        }
+
         Query query = new BasicQuery(dbObject.toJson(), fieldsObject.toJson());
         query.with(new Sort(Sort.Direction.ASC,"typenum"));
         return mongoTemplate.find(query,Question.class);

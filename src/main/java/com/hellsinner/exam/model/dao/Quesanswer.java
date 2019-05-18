@@ -23,7 +23,7 @@ public class Quesanswer {
     /**
      * 得分
      */
-    private Double score;
+    private Double score = 0d;
     /**
      * 用时(Sec)
      */

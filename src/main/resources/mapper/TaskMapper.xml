@@ -9,9 +9,10 @@
     <result column="TaskScore" jdbcType="INTEGER" property="taskscore" />
     <result column="TaskDescription" jdbcType="VARCHAR" property="taskdescription" />
     <result column="Status" jdbcType="INTEGER" property="status" />
+    <result column="Type" jdbcType="INTEGER" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
-    TaskID, TaskName, UserID, CourID, TaskScore, TaskDescription, Status
+    TaskID, TaskName, UserID, CourID, TaskScore, TaskDescription, Status,Type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,10 +30,10 @@
     </selectKey>
     insert into task (TaskID, TaskName, UserID, 
       CourID, TaskScore, TaskDescription, 
-      Status)
+      Status,Type)
     values (#{taskid,jdbcType=INTEGER}, #{taskname,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{courid,jdbcType=INTEGER}, #{taskscore,jdbcType=INTEGER}, #{taskdescription,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER})
+      #{status,jdbcType=INTEGER},#{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.hellsinner.exam.model.dao.Task">
     <selectKey resultType="int" order="AFTER" keyProperty="taskid">
@@ -61,6 +62,9 @@
       <if test="status != null">
         Status,
       </if>
+      <if test="type != null">
+        Type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="taskid != null">
@@ -84,6 +88,9 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
+       <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.hellsinner.exam.model.dao.Task">
@@ -106,6 +113,9 @@
       </if>
       <if test="status != null">
         Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        Type = #{type,jdbcType=INTEGER},
       </if>
     </set>
     where TaskID = #{taskid,jdbcType=INTEGER}
@@ -144,7 +154,8 @@
       CourID = #{courid,jdbcType=INTEGER},
       TaskScore = #{taskscore,jdbcType=INTEGER},
       TaskDescription = #{taskdescription,jdbcType=VARCHAR},
-      Status = #{status,jdbcType=INTEGER}
+      Status = #{status,jdbcType=INTEGER},
+      Type = #{type,jdbcType=INTEGER}
     where TaskID = #{taskid,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
             ImageIO.write(image, "png", outputStream);
 
             String token = UUID.randomUUID().toString();
-            System.out.println("token: "+token);
-            System.out.println("text: "+text);
+            //System.out.println("token: "+token);
+            //System.out.println("text: "+text);
             stringRedisTemplate.opsForValue().set(token,text,10,TimeUnit.MINUTES);
 
             Map<String, Object> map = new HashMap<>();

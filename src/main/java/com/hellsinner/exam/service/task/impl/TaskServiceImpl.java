@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
 
         List<Knowledgeunit> knowledgeunits = knowledgeunitMapper.selectByCid(taskInfo.getCourid());
 
-        Map<String, ExamInfo> taskquesMap = taskquesMapper.selectByTid(tid);
+        Map<String, ExamQuesInfo> taskquesMap = taskquesMapper.selectByTid(tid);
         TaskListInfo info = new TaskListInfo();
         info.setTaskInfo(taskInfo);
         info.setKnowledgeunits(knowledgeunits);

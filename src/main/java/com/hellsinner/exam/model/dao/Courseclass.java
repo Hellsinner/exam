@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * 课程班
@@ -35,7 +34,6 @@ public class Courseclass {
     /**
      * 课程班状态
      */
-    @NotNull
     private Integer status;
     /**
      * 课程班人数

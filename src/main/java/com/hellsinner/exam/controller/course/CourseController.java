@@ -5,12 +5,10 @@ import com.hellsinner.exam.model.dao.Course;
 import com.hellsinner.exam.model.web.Result;
 import com.hellsinner.exam.service.course.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/exam")
 public class CourseController {
 
     @Autowired
